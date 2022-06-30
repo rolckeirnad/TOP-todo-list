@@ -1,0 +1,6 @@
+.default-entries,
+.user-entries {
+    list-style: none;
+    font-size: 1.4rem;
+    padding: 10px 15px;
+}

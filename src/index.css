@@ -4,10 +4,31 @@
     box-sizing: border-box;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
 .header-content {
     background-color: gray;
     height: 15vh;
     display: flex;
     align-items: center;
     padding: 0 20px;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    flex: 1;
+}
+
+.main-content hr {
+    margin: 10px 0;
+}
+
+.sidebar {
+    background-color: rgb(208, 208, 208);
 }
