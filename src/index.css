@@ -32,3 +32,10 @@ body {
 .sidebar {
     background-color: rgb(208, 208, 208);
 }
+
+.footer-links {
+    background-color: gray;
+    color: white;
+    display: flex;
+    justify-content: center;
+}
