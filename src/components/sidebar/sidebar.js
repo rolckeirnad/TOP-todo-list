@@ -1,5 +1,5 @@
 import './sidebar.css';
-const defEntries = ['Inbox', 'Today', 'Upcoming', 'Anytime'];
+const defEntries = ['Dashboard', 'Inbox', 'Today', 'Upcoming', 'Anytime'];
 const usrEntries = ['Default'];
 
 function createLi(name) {
@@ -35,7 +35,7 @@ function sidebar() {
     }
 
     fr.appendChild(userEntries);
-    
+
     return fr;
 }
 

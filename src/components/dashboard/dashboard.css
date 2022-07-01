@@ -1,0 +1,45 @@
+.dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    height: 100%;
+}
+
+.dashboard-column {
+    height: 100%;
+    padding: 10px 5px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(208, 208, 208);
+}
+
+.dashboard-task-container {
+    flex: 1;
+    background-color: white;
+    overflow-y: auto;
+}
+
+.dashboard-header {
+    font-size: 2rem;
+    text-align: center;
+    border-radius: 20px;
+}
+
+div[class^="dashboard-header"] {
+    border-radius: 10px;
+}
+
+.dashboard-header-today {
+    background-color: red;
+}
+
+.dashboard-header-tomorrow {
+    background-color: orange;
+}
+
+.dashboard-header-week {
+    background-color: rgb(99, 99, 255);
+}
+
+.dashboard-header-month {
+    background-color: rgb(43, 227, 52);
+}
