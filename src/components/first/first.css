@@ -1,0 +1,61 @@
+.first-time-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.first-block {
+    font-size: 1.4rem;
+    font-weight: normal;
+    width: 600px;
+    justify-self: center;
+    ;
+}
+
+.first-create-container {
+    display: flex;
+    gap: 20px;
+}
+
+.first-message {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.first-default-entries {
+    background-color: orange;
+}
+
+.first-user-entries {
+    background-color: violet;
+}
+
+.first-default-entries,
+.first-user-entries {
+    border-radius: 10px;
+    padding: 10px;
+    width: fit-content;
+    font-size: 1.4rem;
+}
+
+.first-add-button {
+    height: 50px;
+    width: 50px;
+    border: none;
+    font-size: 2rem;
+    font-weight: bolder;
+    color: white;
+    background-color: rgb(0, 110, 255);
+    border-radius: 2rem;
+    transition: ease-in 300ms;
+}
+
+.first-add-button:hover {
+    border: 2px solid rgb(0, 110, 255);
+    background-color: white;
+    color: rgb(0, 110, 255);
+    transform: scale(1.1);
+    transition: ease-out 300ms;
+}
