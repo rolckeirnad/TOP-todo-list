@@ -4,3 +4,33 @@
     font-size: 1.4rem;
     padding: 10px 15px;
 }
+
+.sidebar-projects-header {
+    display: flex;
+    justify-content: center;
+    padding: 0 15px;
+}
+
+.sidebar-projects-header>h2 {
+    flex: 1;
+}
+
+.sidebar-header-button {
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.5rem;
+    font-weight: bolder;
+    transition: ease-out 300ms;
+}
+
+.sidebar-header-button:hover {
+    transform: scale(1.1);
+    border: 1px solid red;
+    background-color: rgb(255, 181, 181);
+    color: red;
+    transition: ease-out 300ms;
+}
