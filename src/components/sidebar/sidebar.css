@@ -2,7 +2,7 @@
 .user-entries {
     list-style: none;
     font-size: 1.4rem;
-    padding: 10px 15px;
+    padding: 10px 5px 0px 15px;
 }
 
 .sidebar-projects-header {
@@ -33,4 +33,38 @@
     background-color: rgb(255, 181, 181);
     color: red;
     transition: ease-out 300ms;
+}
+
+.default-entry {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 2rem;
+}
+
+.default-entry-icon {
+    height: 100%;
+}
+
+.entry-name {
+    flex: 1;
+}
+
+.hide {
+    display: none;
+}
+
+.entry-counter {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.entry-counter-container {
+    background-color: rgb(0, 195, 255);
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
