@@ -1,4 +1,5 @@
 import './first.css';
+import createPage from '../taskCreation/taskCreation';
 
 function first() {
     const firstTimeContainer = document.createElement('div');
@@ -15,6 +16,7 @@ function first() {
     firstButton.classList.add('first-add-button');
     firstButton.setAttribute('type', 'button');
     firstButton.innerText = "+";
+    firstButton.addEventListener('click', () => createPage('subtask'));
 
     const firstTask = document.createElement('p');
     firstTask.classList.add('first-block');

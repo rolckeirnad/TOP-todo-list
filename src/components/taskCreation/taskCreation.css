@@ -1,0 +1,49 @@
+.form-background {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.56);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: wheat;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.form-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#formTitle {
+    flex: 1;
+    font-size: 1.5rem;
+}
+
+.form-close-button {
+    background-color: red;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    height: 30px;
+    width: 30px;
+    border: none;
+    border-radius: 15px;
+}
+
+.form-input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-input-container>textarea {
+    resize: none;
+}
