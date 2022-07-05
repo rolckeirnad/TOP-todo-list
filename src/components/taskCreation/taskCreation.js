@@ -1,7 +1,10 @@
 import './taskCreation.css';
+import datepicker from 'js-datepicker';
+import format from 'date-fns/format';
 
+// This object defines the form inputs for each type of new object (project, task, subtask)
+// as well the required inputs and options for select tags
 const form = {
-    priorities: ['low', 'medium', 'high'],
     project: {
         inputs: [
             {
@@ -41,13 +44,14 @@ const form = {
         ],
     },
     subtask: {
+        requiredInputs: ['name', 'priority', 'dueDate'],
         inputs: [
             {
-                labelId: 'title', labelText: 'Subtask name: ', tag: 'input',
+                labelId: 'name', labelText: 'Subtask name: ', tag: 'input',
                 attr: [
                     { name: 'type', value: 'text' },
-                    { name: 'id', value: 'title' },
-                    { name: 'name', value: 'title' },
+                    { name: 'id', value: 'name' },
+                    { name: 'name', value: 'name' },
                     { name: 'autocomplete', value: 'off' },
                     { name: 'required', value: '' },
                     { name: 'autofocus', value: true },
@@ -63,6 +67,7 @@ const form = {
             },
             {
                 labelId: 'priority', labelText: 'Set priority: ', tag: 'select',
+                options: ['low', 'medium', 'high'],
                 attr: [
                     { name: 'id', value: 'priority' },
                     { name: 'name', value: 'priority' },
@@ -97,11 +102,11 @@ function createInputs(type) {
         label.textContent = input.labelText;
         const el = document.createElement(input.tag);
         if (input.tag == 'select') {
-            for (let priority of form.priorities) {
-                const option = document.createElement('option');
-                option.setAttribute('value', form.priorities.indexOf(priority));
-                option.textContent = priority;
-                el.appendChild(option);
+            for (let option of input.options) {
+                const optionEl = document.createElement('option');
+                optionEl.setAttribute('value', input.options.indexOf(option));
+                optionEl.textContent = option;
+                el.appendChild(optionEl);
             }
         }
         for (let attribute of input.attr) {
@@ -114,9 +119,38 @@ function createInputs(type) {
 }
 
 function readInputs() {
-    const inputs = document.querySelector('#formInputs').elements;
-    console.log(inputs);
-    //closeForm();
+    const form = document.querySelector('#formInputs');
+    const formInputs = form.elements;
+    const type = form.dataset.type;
+    let inputs = {};
+    for (let field of formInputs) {
+        inputs[field.id] = field.value;
+    }
+    // Will check for valid inputs, if are invalid will add an error class
+    const invalidInputs = validateInputs(inputs, type);
+    if (invalidInputs.length == 0) {
+        // Create and store to state, this will trigger a rerender.
+        closeForm();
+    } else {
+        // format invalid fields
+        addClass(formInputs, invalidInputs, 'invalid');
+    }
+}
+
+function validateInputs(inputs, type) {
+    let invalidFields = [];
+    for (let field of form[type].requiredInputs) {
+        if (!inputs[field]) {
+            invalidFields.push(field);
+        }
+    }
+    return invalidFields;
+}
+
+function addClass(nodeList, idArr, classValue) {
+    [...nodeList].forEach(el => {
+        if (idArr.indexOf(el.id) > -1) el.classList.add(classValue);
+    })
 }
 
 function cacheFormElements() {
@@ -177,9 +211,19 @@ function createPage(type = "subtask") {
     const form = cacheFormElements();
 
     form.title.textContent = `Create new ${type}`;
+    form.userInput.setAttribute('data-type', type);
     const inputs = createInputs(type);
 
     form.userInput.append(inputs);
+    const calendar = document.querySelector('#dueDate');
+    if (calendar) {
+        const dueDateCalendar = datepicker(calendar, {
+            formatter: (input, date, instance) => {
+                const value = format(date, "MMMM d'th,' yyyy");
+                input.value = value;
+            }
+        });
+    }
 }
 
 export default createPage;

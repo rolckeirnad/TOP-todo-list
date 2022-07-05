@@ -1,3 +1,5 @@
+@import '~js-datepicker/dist/datepicker.min.css';
+
 .form-background {
     width: 100vw;
     height: 100vh;
@@ -44,6 +46,15 @@
     flex-direction: column;
 }
 
+.form-input-container>* {
+    border: none;
+    border-radius: 5px;
+}
+
 .form-input-container>textarea {
     resize: none;
+}
+
+.form-input-container .invalid {
+    border: 3px solid red;
 }
