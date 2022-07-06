@@ -1,6 +1,7 @@
 import './taskCreation.css';
 import datepicker from 'js-datepicker';
 import format from 'date-fns/format';
+import { getNewObject } from '../../tasks';
 
 // This object defines the form inputs for each type of new object (project, task, subtask)
 // as well the required inputs and options for select tags
@@ -120,16 +121,18 @@ function createInputs(type) {
 
 function readInputs() {
     const form = document.querySelector('#formInputs');
-    const formInputs = form.elements;
     const type = form.dataset.type;
-    let inputs = {};
-    for (let field of formInputs) {
-        inputs[field.id] = field.value;
-    }
+    const formInputs = form.elements;
+    let inputValues = Object.fromEntries(new FormData(form));
+
     // Will check for valid inputs, if are invalid will add an error class
-    const invalidInputs = validateInputs(inputs, type);
+    const invalidInputs = validateInputs(inputValues, type);
     if (invalidInputs.length == 0) {
         // Create and store to state, this will trigger a rerender.
+        const newInput = getNewObject(inputValues, type); //
+        console.log("New Input created: ", newInput);
+        //saveTask(newInput, type); // 
+        // dispatch('updateSubtasks'); // Will update all elements subscribed to 'subtasks'
         closeForm();
     } else {
         // format invalid fields
@@ -150,6 +153,7 @@ function validateInputs(inputs, type) {
 function addClass(nodeList, idArr, classValue) {
     [...nodeList].forEach(el => {
         if (idArr.indexOf(el.id) > -1) el.classList.add(classValue);
+        else el.classList.remove(classValue);
     })
 }
 
