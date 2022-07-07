@@ -2,11 +2,12 @@ import './taskCreation.css';
 import datepicker from 'js-datepicker';
 import format from 'date-fns/format';
 import { getNewObject } from '../../tasks';
+import state from '../../../state';
 
 // This object defines the form inputs for each type of new object (project, task, subtask)
 // as well the required inputs and options for select tags
 const form = {
-    project: {
+    projects: {
         inputs: [
             {
                 labelId: 'title', labelText: 'Project name: ', tag: 'input',
@@ -21,7 +22,7 @@ const form = {
             },
         ],
     },
-    task: {
+    tasks: {
         inputs: [
             {
                 labelId: 'title', labelText: 'Task name: ', tag: 'input',
@@ -44,7 +45,7 @@ const form = {
             },
         ],
     },
-    subtask: {
+    subtasks: {
         requiredInputs: ['name', 'priority', 'dueDate'],
         inputs: [
             {
@@ -130,10 +131,9 @@ function readInputs() {
     if (invalidInputs.length == 0) {
         // Create and store to state, this will trigger a rerender.
         const newInput = getNewObject(inputValues, type); //
-        console.log("New Input created: ", newInput);
-        //saveTask(newInput, type); // 
+        state.saveObject(newInput, type); // 
         // dispatch('updateSubtasks'); // Will update all elements subscribed to 'subtasks'
-        closeForm();
+        //closeForm();
     } else {
         // format invalid fields
         addClass(formInputs, invalidInputs, 'invalid');
@@ -210,7 +210,7 @@ function displayContainer() {
     document.body.append(pageContainer);
 }
 
-function createPage(type = "subtask") {
+function createPage(type = "subtasks") {
     displayContainer();
     const form = cacheFormElements();
 

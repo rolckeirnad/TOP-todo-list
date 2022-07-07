@@ -7,25 +7,34 @@ const idStore = (() => {
     }
 
     const getId = (key) => id[key]++;
-    const getNextId = () => id;
 
     return {
         getId,
-        getNextId,
     };
 })();
 
 const Subtask = () => {
     const obj = {
         id: idStore.getId('subtask'),
+        parentId: 0, // Default id 0 will be 'Inbox'
         name: null,
         notes: null,
         priority: 0,
         dueDate: null,
-        checklist: [],
+        // checklist: [], this checklist is optional
         header: [],
         completed: false,
         last: () => console.log("I am a function"),
     }
     return obj;
+};
+
+export const getNewObject = (inputs, type) => {
+    switch (type) {
+        case 'subtasks':
+            return Object.assign({}, Subtask(), inputs);
+        default:
+            console.error('Not implemented...')
+            break;
+    }
 };
