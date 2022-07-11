@@ -19,6 +19,7 @@ import first from './components/first/first.js';
     const _userEntries = document.querySelector('#userEntries');
 
     // Load data from localStorage
+    _loadData(); // This triggers and dispatch all events
 
     // Initial view
     _initialView();
@@ -27,6 +28,10 @@ import first from './components/first/first.js';
         _headerContent.appendChild(header);
         _sidebarContent.appendChild(sidebar);
         _footerContent.appendChild(footer);
+    }
+
+    function _loadData() {
+        state.loadFromStorage();
     }
 
     function _initialView() {
@@ -38,7 +43,7 @@ import first from './components/first/first.js';
             _todoView.replaceChildren(dashboard)
             _updateSideBar();
             //_updateDashboard();
-        }
+    }
     }
 
 })();

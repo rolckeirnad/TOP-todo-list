@@ -1,19 +1,22 @@
 import './sidebar.css';
+import events from '../../events';
+import { startOfToday, parse, add, isWithinInterval } from 'date-fns';
 
 // Test data - This will replaced with state and some file configuration
 const defEntries = [
     { name: 'Dashboard', icon: './icons8-dashboard-layout-100.png', counter: false, fn: () => console.log("Dashboard") },
-    { name: 'Inbox', icon: './icons8-inbox-100.png', counter: true, fn: () => console.log("Inbox") },
-    { name: 'Today', icon: './icons8-today-100.png', counter: true, fn: () => console.log("Today") },
-    { name: 'Upcoming', icon: './icons8-date-to-100.png', counter: true, fn: () => console.log("Upcoming") },
-    { name: 'Anytime', icon: './icons8-calendar-100.png', counter: true, fn: () => console.log("Anytime") },
+    { name: 'Inbox', icon: './icons8-inbox-100.png', counter: true, fn: () => console.log("Inbox"), startDate: startOfToday(), endDate: new Date() },
+    { name: 'Today', icon: './icons8-today-100.png', counter: true, fn: () => console.log("Today"), startDate: startOfToday(), endDate: add(startOfToday(), { hours: 23, minutes: 59, seconds: 59 }) },
+    { name: 'Tomorrow', icon: './icons8-date-to-100.png', counter: true, fn: () => console.log("Tomorrow"), startDate: add(startOfToday(), { days: 1 }), endDate: add(startOfToday(), { days: 1, hours: 23, minutes: 59, seconds: 59 }) },
+    { name: 'Upcoming', icon: './icons8-calendar-100.png', counter: true, fn: () => console.log("Upcoming"), startDate: add(startOfToday(), { days: 2 }), endDate: add(startOfToday(), { days: 13, hours: 23, minutes: 59, seconds: 59 }) },
+    //{ name: 'Anytime', icon: './icons8-month-view-100.png', counter: true, fn: () => console.log("Anytime") },
 ];
 
-const testProjects = [
+/* const testProjects = [
     { name: 'Project 1', tasks: [] },
     { name: 'Project 2', tasks: [] },
     { name: 'Project 3', tasks: [] }
-];
+]; */
 // End of Test data
 
 const icons = require.context(
@@ -22,7 +25,50 @@ const icons = require.context(
     /\.(png|jpg|jpeg|gif)$/
 );
 
-function createLi(obj, icon = false) {
+function updateInboxCounter(eventArr) {
+    // Update inbox
+    // We receive an object, filter contents to only parent Id = 0,
+    const inbox = eventArr.filter(subtask => subtask.parentId == 0 && subtask.completed == false);
+    // Update inbox counter
+    const inboxCounter = document.querySelector('#inbox-Counter');
+    inboxCounter.innerText = inbox.length;
+}
+
+function updateCounters(subtasksArr) {
+    for (let entry of defEntries) {
+        if (entry.name == 'Inbox') {
+            const subtasks = subtasksArr.filter(subtask => subtask.parentId == 0 && subtask.completed == false);
+            const name = entry.name.toLowerCase();
+            const counter = document.querySelector(`#${name}-Counter`);
+            counter.textContent = subtasks.length;
+        } else if (entry.counter) {
+            const startDate = entry.startDate;
+            const endDate = entry.endDate
+            const subtasks = subtasksArr.filter(subtask => {
+                const subtaskDate = parse(subtask.dueDate, "MMMM d'th,' yyyy", new Date());
+                return (subtask.completed == false) && isWithinInterval(subtaskDate, {
+                    start: startDate,
+                    end: endDate,
+                });
+            })
+            const name = entry.name.toLowerCase();
+            const counter = document.querySelector(`#${name}-Counter`);
+            counter.textContent = subtasks.length;
+        }
+    }
+}
+
+function updateProjects(projectsArr) {
+    const projectsContainer = document.querySelector('#userEntries');
+    for (let project of projectsArr) {
+        const setProject = Object.assign(project, { icon: './icons8-box-100.png' });
+        const newLi = createLi(setProject);
+        projectsContainer.appendChild(newLi);
+    }
+
+}
+
+function createLi(obj) {
     const lowerCaseName = obj.name.toLowerCase();
     const li = document.createElement('li');
     li.classList.add('default-entry');
@@ -93,15 +139,20 @@ function sidebar() {
     userEntries.classList.add('user-entries');
     userEntries.id = 'userEntries';
 
-    for (let entry of testProjects) {
+    /* for (let entry of testProjects) {
         const setIcon = Object.assign(entry, { icon: './icons8-box-100.png' });
         const newLi = createLi(setIcon);
         userEntries.appendChild(newLi);
-    }
+    } */
 
     fr.appendChild(userEntries);
 
     return fr;
 }
+
+events.on('subtasks loaded', updateCounters);
+events.on('projects loaded', updateProjects);
+events.on('subtasks updated', updateCounters);
+events.on('projects updated', updateProjects);
 
 export default sidebar();
