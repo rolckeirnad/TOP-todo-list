@@ -8,13 +8,14 @@ import state from '../../state';
 // as well the required inputs and options for select tags
 const form = {
     projects: {
+        requiredInputs: ['name'],
         inputs: [
             {
-                labelId: 'title', labelText: 'Project name: ', tag: 'input',
+                labelId: 'name', labelText: 'Project name: ', tag: 'input',
                 attr: [
                     { name: 'type', value: 'text' },
-                    { name: 'id', value: 'title' },
-                    { name: 'name', value: 'title' },
+                    { name: 'id', value: 'name' },
+                    { name: 'name', value: 'name' },
                     { name: 'autocomplete', value: 'off' },
                     { name: 'required', value: '' },
                     { name: 'autofocus', value: true },

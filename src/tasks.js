@@ -13,6 +13,17 @@ const idStore = (() => {
     };
 })();
 
+const Project = () => {
+    const obj = {
+        id: idStore.getId('project'),
+        name: null,
+        tasks: [],
+    }
+
+    return obj;
+};
+
+
 const Subtask = () => {
     const obj = {
         id: idStore.getId('subtask'),
@@ -31,6 +42,10 @@ const Subtask = () => {
 
 export const getNewObject = (inputs, type) => {
     switch (type) {
+        case 'projects':
+            return Object.assign({}, Project(), inputs);
+        /* case 'tasks':
+            return Task(inputs); */
         case 'subtasks':
             return Object.assign({}, Subtask(), inputs);
         default:
