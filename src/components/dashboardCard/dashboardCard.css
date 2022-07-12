@@ -1,0 +1,47 @@
+/* 
+** Only display title and edit button 
+** On click name expand view and include due date,
+** checkbox, priority and parent (default: inbox)
+*/
+
+.dashboard-card {
+    border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.dashboard-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 5px 5px 15px;
+}
+
+.dashboard-card-header-edit {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background-color: white;
+}
+
+.dashboard-card-name {
+    flex: 1;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.dashboard-card-body {
+    padding: 0px 15px 10px;
+}
+
+.dashboard-card-body-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* .dashboard-card-hide {
+    display: none;
+} */

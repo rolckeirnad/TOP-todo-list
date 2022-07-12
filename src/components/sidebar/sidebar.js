@@ -2,10 +2,11 @@ import './sidebar.css';
 import events from '../../events';
 import { startOfToday, parse, add, isWithinInterval } from 'date-fns';
 import createPage from '../taskCreation/taskCreation';
+import loadDashboard from '../dashboard/dashboard';
 
 // Test data - This will replaced with state and some file configuration
 const defEntries = [
-    { name: 'Dashboard', icon: './icons8-dashboard-layout-100.png', counter: false, fn: () => console.log("Dashboard") },
+    { name: 'Dashboard', icon: './icons8-dashboard-layout-100.png', counter: false, fn: loadDashboard },
     { name: 'Inbox', icon: './icons8-inbox-100.png', counter: true, fn: () => console.log("Inbox"), startDate: startOfToday(), endDate: new Date() },
     { name: 'Today', icon: './icons8-today-100.png', counter: true, fn: () => console.log("Today"), startDate: startOfToday(), endDate: add(startOfToday(), { hours: 23, minutes: 59, seconds: 59 }) },
     { name: 'Tomorrow', icon: './icons8-date-to-100.png', counter: true, fn: () => console.log("Tomorrow"), startDate: add(startOfToday(), { days: 1 }), endDate: add(startOfToday(), { days: 1, hours: 23, minutes: 59, seconds: 59 }) },
@@ -19,6 +20,8 @@ const icons = require.context(
     false,
     /\.(png|jpg|jpeg|gif)$/
 );
+
+const _todoView = document.querySelector('#todos-view');
 
 function updateCounters(subtasksArr) {
     for (let entry of defEntries) {

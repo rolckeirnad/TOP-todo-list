@@ -2,8 +2,8 @@ import './index.css';
 import header from './components/header/header.js';
 import sidebar from './components/sidebar/sidebar.js';
 import footer from './components/footer/footer.js';
-import dashboard from './components/dashboard/dashboard.js';
-import first from './components/first/first.js';
+//import loadDashboard from './components/dashboard/dashboard.js';
+import state from './state';
 
 (function () {
     // Cached DOM
@@ -35,15 +35,8 @@ import first from './components/first/first.js';
     }
 
     function _initialView() {
-        // If there aren't any task show first page
-        if (true) {
-            _todoView.replaceChildren(first);
-        } else {
-            // Else show dashboard and show tasks, update sidebar
-            _todoView.replaceChildren(dashboard)
-            _updateSideBar();
-            //_updateDashboard();
-    }
+        const dashboard = document.querySelector('#dashboard-Entry');
+        dashboard.click();
     }
 
 })();

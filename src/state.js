@@ -25,6 +25,8 @@ function newState() {
         data = Object.assign({}, obj)
     };
 
+    const getData = (type) => data[type];
+
     const saveToStorage = () => {
         const newData = JSON.stringify(data);
         localStorage.setItem('todos', newData);
@@ -47,6 +49,7 @@ function newState() {
         saveObject,
         loadFromStorage,
         saveToStorage,
+        getData,
     }
 }
 

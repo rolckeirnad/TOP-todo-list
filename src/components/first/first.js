@@ -52,9 +52,6 @@ function first() {
 
     userEntries.append(userEntriesDescription, createUserEntry);
 
-
-
-    /** Say where you can find this help message */
     firstTimeContainer.append(message, firstContainer, defaultEntries, userEntries);
 
     return firstTimeContainer;

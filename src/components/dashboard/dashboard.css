@@ -9,7 +9,7 @@
     padding: 10px 5px;
     display: flex;
     flex-direction: column;
-    border: 1px solid rgb(208, 208, 208);
+    border-left: 1px solid rgb(208, 208, 208);
 }
 
 .dashboard-task-container {
