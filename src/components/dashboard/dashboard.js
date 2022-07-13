@@ -84,6 +84,6 @@ function loadDashboard() {
     }
 }
 
-events.on('subtasks updated', loadDashboard);
+events.on('initial view', loadDashboard);
 
 export default loadDashboard;

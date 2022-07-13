@@ -38,7 +38,7 @@ function newState() {
             const loadedData = JSON.parse(localStorage.getItem('todos'));
             // Save to state
             setData(loadedData);
-            console.log("New state loaded: ", data);
+            events.emit('initial view', data.subtasks);
             events.emit('subtasks loaded', data.subtasks);
             events.emit('tasks loaded', data.tasks);
             events.emit('projects loaded', data.projects);
