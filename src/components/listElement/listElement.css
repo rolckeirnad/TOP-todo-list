@@ -1,0 +1,18 @@
+.list-element {
+    border: 1px solid black;
+}
+
+.list-element-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.list-element-title {
+    display: flex;
+    align-items: center;
+}
+
+.list-element-icon {
+    margin-right: 10px;
+}
