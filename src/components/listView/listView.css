@@ -1,11 +1,14 @@
-#list-view {
+#listView {
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .list-header-container {
     display: flex;
     gap: 20px;
+    margin: 10px 50px;
 }
 
 .list-header-add-button {
@@ -16,9 +19,21 @@
     font-weight: bold;
 }
 
-.list-tasks-container {
-    padding: 15px 5px;
+.list-tasks-columns-container {
+    flex: 1;
+    padding: 5px 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 10px;
+    height: 100%;
+}
+
+.list-tasks-container-column {
+    border: 1px solid black;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }

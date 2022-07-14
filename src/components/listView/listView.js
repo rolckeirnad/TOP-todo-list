@@ -6,6 +6,12 @@ import createPage from '../taskCreation/taskCreation';
 // Maybe it's convenient to group with days
 // Fri May 8
 // Sat May 9 ... etc
+const columns = [
+    { name: 'Expired', id: 'expired', startDate: null, endDate: startOfToday() },
+    { name: 'Today', id: 'today', startDate: startOfToday(), endDate: add(startOfToday(), { hours: 23, minutes: 59, seconds: 59 }) },
+    { name: 'Tomorrow', id: 'tomorrow', startDate: add(startOfToday(), { days: 1 }), endDate: add(startOfToday(), { days: 1, hours: 23, minutes: 59, seconds: 59 }) },
+    { name: 'Upcoming', id: 'upcoming', startDate: add(startOfToday(), { days: 2 }), endDate: null },
+];
 
 const _todosView = document.querySelector('#todos-view');
 
@@ -31,25 +37,34 @@ function list(type, fn) {
 
     const tasksContainer = document.createElement('div');
     tasksContainer.id = 'list-subtasks';
-    tasksContainer.classList.add('list-tasks-container');
+    tasksContainer.classList.add('list-tasks-columns-container');
 
-    // Load data, filter and store it in array
-    const data = state.getData('subtasks');
-    const filteredData = data.filter(fn);
-    // Load filtered tasks and load inside this container
-    for (let subtask of filteredData) {
-        // We need to create another component for listElements.
-        const el = listElement(subtask);
-        tasksContainer.appendChild(el);
+    for (let each of columns) {
+        const columnEl = document.createElement('div');
+        columnEl.classList.add('list-tasks-container-column', `list-tasks-${each.id}-column`);
+
+        const columnHeader = document.createElement('div');
+        columnHeader.classList.add('list-tasks-column-header');
+
+        const columnHeaderText = document.createElement('h1');
+        columnHeaderText.classList.add('list-tasks-column-header-title');
+        columnHeaderText.textContent = each.name;
+
+        columnHeader.append(columnHeaderText);
+
+        const taskContainer = document.createElement('div');
+        taskContainer.id = `list-tasks-column-${each.id}`;
+        taskContainer.classList.add('list-tasks-container');
+        
+        columnEl.append(columnHeader,taskContainer);
+
+        tasksContainer.appendChild(columnEl);
     }
 
     el.append(headerContainer, tasksContainer);
     return el;
 }
 
-function loadSubtasks() {
-
-}
 
 function loadList(type, fn) {
     const newList = list(type, fn);
