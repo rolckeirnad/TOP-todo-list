@@ -1,11 +1,5 @@
 import './listElement.css';
 
-// Header: priority icon, name, in parentId Task
-// Collapsable content:
-// Body: notes, number of checklist completed (Eg. 1 of 3)
-// if checklist: display mini checklist
-// Footer: Mark/Unmark as complete, delete
-
 const priorityValueList = ['Low', 'Medium', 'High'];
 const priorityIconList = [
     './icons8-low-priority-24.png',
@@ -61,6 +55,7 @@ function listElement(subtask) {
 
         const notesText = document.createElement('p');
         notesText.classList.add('list-element-notes-text');
+        notesText.textContent = subtask.notes;
 
         notesContainer.append(notesIcon, notesText);
         body.appendChild(notesContainer);
