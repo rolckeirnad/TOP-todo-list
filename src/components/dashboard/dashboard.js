@@ -76,10 +76,12 @@ function loadSubtasks(subtasksArr) {
 function loadDashboard() {
     const subtasks = state.getData('subtasks');
     if (subtasks.length > 0) {
+        events.off('subtasks updated', loadDashboard);
         const dash = dashboard();
         todosView.replaceChildren(dash);
         loadSubtasks(subtasks);
     } else {
+        events.on('subtasks updated', loadDashboard);
         todosView.replaceChildren(first);
     }
 }
