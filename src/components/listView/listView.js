@@ -30,15 +30,7 @@ function intervalHelper(obj, date) {
 
 const _todosView = document.querySelector('#todos-view');
 
-// One helper function using isWithinInterval and other using isAfter and isBefore
-function filterArr(arr, fn) {
-
-}
-
-function list() {
-    const el = document.createElement('div');
-    el.setAttribute('id', 'listView');
-
+function header() {
     // Back logo, header text, options
     const headerContainer = document.createElement('div');
     headerContainer.classList.add('list-header-container');
@@ -54,6 +46,12 @@ function list() {
     addButton.addEventListener('click', () => createPage('subtasks'));
 
     headerContainer.append(headerText, addButton);
+    return headerContainer;
+}
+
+function list() {
+    const el = document.createElement('div');
+    el.setAttribute('id', 'listView');
 
     const tasksContainer = document.createElement('div');
     tasksContainer.id = 'list-subtasks';
@@ -81,11 +79,11 @@ function list() {
         tasksContainer.appendChild(columnEl);
     }
 
-    el.append(headerContainer, tasksContainer);
+    el.append(tasksContainer);
     return el;
 }
 
-function loadSubtasks(subtasksArr) {
+function loadInboxSubtasks(subtasksArr) {
     // subtaskArr will be the same.
     // For each column we need to filter data according the object date
     for (let column of columns) {
@@ -104,13 +102,18 @@ function loadSubtasks(subtasksArr) {
     }
 }
 
-events.on('subtasks updated', loadSubtasks);
 
 function loadList() {
+    events.removeTempEvents(); // Remove temp events
+    events.on('subtasks updated', loadInboxSubtasks, true);
+    const newHeader = header();
     const newList = list();
-    _todosView.replaceChildren(newList);
+    // Load header
+    _todosView.replaceChildren(newHeader);
+    // Load subtasks
+    _todosView.appendChild(newList);
     const data = state.getData('subtasks');
-    loadSubtasks(data);
+    loadInboxSubtasks(data);
 }
 
 export default loadList;
