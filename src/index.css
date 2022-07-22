@@ -9,7 +9,7 @@
     width: 100vw;
     position: fixed;
     display: grid;
-    grid: minmax(0, 1.5fr) minmax(0, 8fr) minmax(0, 0.35fr) / 2fr 9fr;
+    grid: minmax(0, 1.5fr) minmax(0, 8fr) minmax(0, 0.35fr) / 1fr 7fr;
     grid-template-areas:
         "header header"
         "sidebar main"
