@@ -1,18 +1,59 @@
 .list-element {
     border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px 10px;
 }
 
 .list-element-header {
     display: flex;
-    align-items: center;
-    gap: 20px;
+    flex-direction: column;
 }
 
 .list-element-title {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    font-weight: bold;
+    width: 100%;
+}
+
+.list-element-data {
+    display: flex;
+    align-items: flex-start;
 }
 
 .list-element-icon {
     margin-right: 10px;
+}
+
+.list-element-notes-text {
+    align-self: center;
+}
+
+.list-element-button {
+    border: none;
+    border-radius: 5px;
+    width: 90px;
+    height: fit-content;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.list-element-body {
+    padding: 10px 0px;
+}
+
+.list-element-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-element-button .completed {
+    background-color: green;
+}
+
+.list-element-button.delete {
+    background-color: red;
 }

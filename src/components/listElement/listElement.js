@@ -1,4 +1,5 @@
 import './listElement.css';
+import state from '../../state';
 
 const priorityValueList = ['Low', 'Medium', 'High'];
 const priorityIconList = [
@@ -12,6 +13,13 @@ const icons = require.context(
     false,
     /\.(png|jpg|jpeg|gif)$/
 );
+
+// Get a list of parents from state
+const parents = state.getData('tasks');
+
+function getParent(id) {
+    return parents.filter(parent => parent.id == id);
+}
 
 function listElement(subtask) {
     const el = document.createElement('div');
@@ -37,7 +45,9 @@ function listElement(subtask) {
     const parentContainerPlaceholder = document.createTextNode('in ');
     const parentName = document.createElement('span');
     parentName.classList.add('list-element-parent-name');
-    parentName.textContent = subtask.parentId;
+    // Get parent name
+    const parentNameValue = getParent(subtask.parentId);
+    parentName.textContent = parentNameValue[0].title;
 
     parentInfoContainer.append(parentContainerPlaceholder, parentName);
     header.append(nameContainer, parentInfoContainer);
@@ -101,13 +111,25 @@ function listElement(subtask) {
     toggleButton.id = 'a-unique-id';
     toggleButton.setAttribute('type', 'button');
     toggleButton.classList.add('list-element-button');
-    toggleButton.innerText = "Mark as completed";
+    const toggleIcon = new Image();
+    const toggleString = subtask.completed ? 'Unmark as completed' : 'Mark as complete';
+    const toggleText = document.createTextNode(toggleString);
     // Attach a method to alternate complete state for this element.
+    if (subtask.completed) {
+        toggleIcon.src = icons('./icons8-checked-radio-button-24.png');
+        toggleButton.classList.add('list-element-button-completed');
+    } else {
+        toggleIcon.src = icons('./icons8-unchecked-radio-button-24.png');
+        toggleButton.classList.add('list-element-button-uncompleted');
+    }
+    toggleButton.append(toggleIcon, toggleText);
 
     const deleteButton = document.createElement('button');
     deleteButton.setAttribute('type', 'button');
-    deleteButton.classList.add('list-element-button');
-    deleteButton.innerText = "Delete Subtask";
+    deleteButton.classList.add('list-element-button', 'delete');
+    const deleteIcon = new Image();
+    deleteIcon.src = icons('./icons8-trash-24.png');
+    deleteButton.append(deleteIcon, 'Delete');
 
     footer.append(toggleButton, deleteButton);
 
