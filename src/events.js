@@ -1,8 +1,10 @@
 function eventsDispatcher() {
     let events = {};
-    const on = (eventName, fn) => {
+    let temp = [];
+    const on = (eventName, fn, unsubscribe) => {
         events[eventName] = events[eventName] || [];
         events[eventName].push(fn);
+        if (unsubscribe) temp.push({ eventName, fn });
     };
     const off = (eventName, fn) => {
         if (events[eventName]) {
@@ -21,11 +23,17 @@ function eventsDispatcher() {
             });
         }
     };
+    const removeTempEvents = () => {
+        for (let each of temp) {
+            off(each.eventName, each.fn);
+        }
+    }
 
     return {
         on,
         off,
         emit,
+        removeTempEvents,
     }
 };
 
