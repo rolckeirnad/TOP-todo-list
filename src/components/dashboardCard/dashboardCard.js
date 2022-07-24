@@ -1,4 +1,3 @@
-import { parseISOWithOptions } from 'date-fns/fp';
 import './dashboardCard.css';
 
 const priorityValues = ['Low', 'Medium', 'High'];
@@ -80,7 +79,7 @@ function dashboardCard(subtask) {
 
     const parent = document.createElement('span');
     parent.classList.add('dashboard-card-parent');
-    parent.textContent = subtask.parentId;
+    parent.textContent = subtask.parentName;
 
     parentContainer.append(parentIcon, parent);
 

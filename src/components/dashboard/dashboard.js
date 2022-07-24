@@ -15,6 +15,12 @@ const columns = [
 
 const todosView = document.querySelector('#todos-view');
 
+const parents = state.getData('tasks');
+
+function getParentIndex(id) {
+    return parents.findIndex(parent => parent.id == id);
+}
+
 function dashboard() {
     const el = document.createElement('div');
     el.classList.add('dashboard-container');
@@ -66,7 +72,9 @@ function loadSubtasks(subtasksArr) {
         });
         for (let subtask of filteredData) {
             // For every element in array, create a new Node element
-            const el = dashboardCard(subtask);
+            const parentIndex = getParentIndex(subtask.parentId);
+            const obj = Object.assign({}, subtask, { parentName: parents[parentIndex].title })
+            const el = dashboardCard(obj);
             // Append element to its corresponding column
             taskContainer[column.id].appendChild(el);
         }
