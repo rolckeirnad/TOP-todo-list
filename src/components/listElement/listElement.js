@@ -108,7 +108,7 @@ function listElement(subtask) {
     footer.classList.add('list-element-footer');
 
     const toggleButton = document.createElement('button');
-    toggleButton.id = 'a-unique-id';
+    toggleButton.id = subtask.id;
     toggleButton.setAttribute('type', 'button');
     toggleButton.classList.add('list-element-button');
     const toggleIcon = new Image();
