@@ -1,21 +1,11 @@
 /// We use to create and assign id to our objects
-const idStore = (() => {
-    let id = {
-        project: 0,
-        task: 0,
-        subtask: 0,
-    }
-
-    const getId = (key) => id[key]++;
-
-    return {
-        getId,
-    };
-})();
+const getUniqueId = function () {
+    return Date.now().toString(36) + Math.floor(Math.pow(10, 12) + Math.random() * 9 * Math.pow(10, 12)).toString(36);
+}
 
 const Project = () => {
     const obj = {
-        id: idStore.getId('project'),
+        id: getUniqueId(),
         name: null,
         tasks: [],
     }
@@ -23,10 +13,23 @@ const Project = () => {
     return obj;
 };
 
+const Task = (title, description = null) => {
+    const obj = {
+        id: getUniqueId(),
+        title,
+        description,
+        subtasksNum: null,
+        completedSubtasks: null,
+        progress: 0,
+        headers: [],
+        subtasks: [],
+    }
+    return obj;
+};
 
 const Subtask = () => {
     const obj = {
-        id: idStore.getId('subtask'),
+        id: getUniqueId(),
         parentId: 0, // Default id 0 will be 'Inbox'
         name: null,
         notes: null,
