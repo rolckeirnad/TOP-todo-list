@@ -45,9 +45,7 @@ function listElement(subtask) {
     const parentContainerPlaceholder = document.createTextNode('in ');
     const parentName = document.createElement('span');
     parentName.classList.add('list-element-parent-name');
-    // Get parent name
-    const parentNameValue = getParent(subtask.parentId);
-    parentName.textContent = parentNameValue[0].title;
+    parentName.textContent = subtask.parentName;
 
     parentInfoContainer.append(parentContainerPlaceholder, parentName);
     header.append(nameContainer, parentInfoContainer);
