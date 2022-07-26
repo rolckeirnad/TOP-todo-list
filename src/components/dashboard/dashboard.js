@@ -81,8 +81,8 @@ function loadSubtasks(subtasksArr) {
     }
 }
 
-function loadDashboard() {
-    const subtasks = state.getData('subtasks');
+function loadDashboard(arr = null) {
+    const subtasks = arr ? state.getData('subtasks') : arr;
     if (subtasks.length > 0) {
         events.off('subtasks updated', loadDashboard);
         const dash = dashboard();

@@ -2,8 +2,7 @@ import './index.css';
 import header from './components/header/header.js';
 import sidebar from './components/sidebar/sidebar.js';
 import footer from './components/footer/footer.js';
-//import loadDashboard from './components/dashboard/dashboard.js';
-import state from './state';
+import events from './events';
 
 (function () {
     // Cached DOM
@@ -31,7 +30,10 @@ import state from './state';
     }
 
     function _loadData() {
-        state.loadFromStorage();
+        const obj = {
+            type: 'LOAD_STATE',
+        };
+        events.emit('modify state', obj);
     }
 
     function _initialView() {

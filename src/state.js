@@ -3,56 +3,94 @@ import events from "./events";
 function newState() {
     let data = {
         projects: [ // Here we'll store user projects
-            { name: 'Family', tasks: [] },
         ],
         tasks: [  // Here we'll store tasks of projects
+            {
+                id: 0,
+                title: "Inbox",
+                subtasksNum: null,
+                completedSubtasks: null,
+                progress: 0,
+            }
         ],
         subtasks: [ // Here we'll store subtasks of projects
         ],
     };
 
-    const saveObject = (task, type) => {
-        data = {
-            ...data,
-            [type]: [...data[type], task],
-        }
-        const FIRE_EVENT = `${type} updated`;
-        saveToStorage(); // Save to storage
-        events.emit(FIRE_EVENT, data[type]);
-    }
-
-    const setData = (obj) => {
-        data = Object.assign({}, obj)
-    };
-
-    const getData = (type) => data[type];
-
-    const saveToStorage = () => {
-        const newData = JSON.stringify(data);
-        localStorage.setItem('todos', newData);
-    };
-
-    const loadFromStorage = () => {
-        if (localStorage.getItem('todos')) {
-            // Load storage and get properties
-            const loadedData = JSON.parse(localStorage.getItem('todos'));
-            // Save to state
-            setData(loadedData);
-            events.emit('initial view', data.subtasks);
-            events.emit('subtasks loaded', data.subtasks);
-            events.emit('tasks loaded', data.tasks);
-            events.emit('projects loaded', data.projects);
-        }
-    };
+    const getData = (type) => [...data[type]];
+    const setData = (newData, type) => data[type] = newData;
+    const getState = () => { return { ...data } };
+    const setState = (state) => data = state;
 
     return {
-        saveObject,
-        loadFromStorage,
-        saveToStorage,
         getData,
+        setData,
+        getState,
+        setState,
     }
 }
 
 const state = newState();
+
+// Helper state functions
+const addNewObject = (obj, type) => {
+    let data = state.getState();
+    data = {
+        ...data,
+        [type]: [...data[type], obj],
+    }
+    return data;
+}
+
+const getIndex = (arr, id) => {
+    return arr.findIndex(subtask => subtask.id == id);
+};
+
+const saveToStorage = (data) => {
+    const stringifiedData = JSON.stringify(data);
+    localStorage.setItem('todos', stringifiedData);
+};
+
+const loadFromStorage = () => {
+    if (localStorage.getItem('todos')) {
+        const parsedData = JSON.parse(localStorage.getItem('todos'));
+        return parsedData;
+    }
+};
+
+const stateDispatcher = (action) => {
+    switch (action.type) {
+        case 'LOAD_STATE':
+            const loadedData = loadFromStorage();
+            state.setState(loadedData);
+            events.emit('initial view', loadedData.subtasks);
+            events.emit('subtasks loaded', loadedData.subtasks);
+            events.emit('tasks loaded', loadedData.tasks);
+            events.emit('projects loaded', loadedData.projects);
+            break;
+        case 'SAVE_NEW_OBJECT':
+            const newData = addNewObject(action.obj, action.key);
+            state.setState(newData);
+            const FIRE_EVENT = `${action.key} updated`;
+            events.emit(FIRE_EVENT, newData[action.key]);
+            saveToStorage(newData);
+            break;
+        case 'TOGGLE_STATE':
+            const data = state.getData(action.key);
+            const index = getIndex(data, action.id);
+            const completed = data[index].completed;
+            data[index] = Object.assign({}, data[index], { completed: !completed });
+            state.setData(data, action.key);
+            events.emit('subtasks updated', data);
+            saveToStorage(data);
+            break;
+        case 'DELETE_TASK':
+            break;
+        default:
+            console.error('Not implemented ...');
+    }
+};
+
+events.on('modify state', stateDispatcher);
 
 export default state;
