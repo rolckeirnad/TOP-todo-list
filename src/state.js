@@ -32,6 +32,22 @@ function newState() {
 
 const state = newState();
 
+const initialData = {
+    projects: [ // Here we'll store user projects
+    ],
+    tasks: [  // Here we'll store tasks of projects
+        {
+            id: 0,
+            title: "Inbox",
+            subtasksNum: null,
+            completedSubtasks: null,
+            progress: 0,
+        }
+    ],
+    subtasks: [ // Here we'll store subtasks of projects
+    ],
+};
+
 // Helper state functions
 const addNewObject = (obj, type) => {
     let data = state.getState();
@@ -55,6 +71,9 @@ const loadFromStorage = () => {
     if (localStorage.getItem('todos')) {
         const parsedData = JSON.parse(localStorage.getItem('todos'));
         return parsedData;
+    }
+    else {
+        return initialData;
     }
 };
 
@@ -81,8 +100,9 @@ const stateDispatcher = (action) => {
             const completed = data[index].completed;
             data[index] = Object.assign({}, data[index], { completed: !completed });
             state.setData(data, action.key);
+            const newState = state.getState()
             events.emit('subtasks updated', data);
-            saveToStorage(data);
+            saveToStorage(newState);
             break;
         case 'DELETE_TASK':
             break;
