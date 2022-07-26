@@ -1,4 +1,4 @@
-import './listView.css';
+import './inboxView.css';
 import state from '../../state';
 import listElement from '../listElement/listElement';
 import createPage from '../taskCreation/taskCreation';
@@ -113,7 +113,7 @@ function loadInboxSubtasks(subtasksArr) {
 }
 
 
-function loadList() {
+function loadInbox() {
     events.removeTempEvents(); // Remove temp events
     events.on('subtasks updated', loadInboxSubtasks, true);
     const newHeader = header();
@@ -126,4 +126,4 @@ function loadList() {
     loadInboxSubtasks(data);
 }
 
-export default loadList;
+export default loadInbox;
