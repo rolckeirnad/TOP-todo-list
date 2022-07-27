@@ -1,5 +1,5 @@
 import './listElement.css';
-import state from '../../state';
+import events from '../../events';
 
 const priorityValueList = ['Low', 'Medium', 'High'];
 const priorityIconList = [
@@ -14,11 +14,26 @@ const icons = require.context(
     /\.(png|jpg|jpeg|gif)$/
 );
 
-// Get a list of parents from state
-const parents = state.getData('tasks');
+function toggleState(id) {
+    // Toggle state
+    // A dispatcher send type, and data
+    // Example: type: 'TOGGLE_STATE', action: { id }
+    const obj = {
+        type: 'TOGGLE_STATE',
+        key: 'subtasks',
+        id,
+    };
+    events.emit('modify state', obj);
+}
 
-function getParent(id) {
-    return parents.filter(parent => parent.id == id);
+function deleteSubtask(id) {
+    // Delete Subtask
+    const obj = {
+        type: 'DELETE_TASK',
+        key: 'subtasks',
+        id,
+    };
+    events.emit('modify state', obj);
 }
 
 function listElement(subtask) {
@@ -106,9 +121,10 @@ function listElement(subtask) {
     footer.classList.add('list-element-footer');
 
     const toggleButton = document.createElement('button');
-    toggleButton.id = subtask.id;
+    //toggleButton.id = subtask.id;
     toggleButton.setAttribute('type', 'button');
     toggleButton.classList.add('list-element-button');
+    toggleButton.addEventListener('click', (e) => toggleState(subtask.id), false);
     const toggleIcon = new Image();
     const toggleString = subtask.completed ? 'Unmark as completed' : 'Mark as complete';
     const toggleText = document.createTextNode(toggleString);
@@ -128,6 +144,7 @@ function listElement(subtask) {
     const deleteIcon = new Image();
     deleteIcon.src = icons('./icons8-trash-24.png');
     deleteButton.append(deleteIcon, 'Delete');
+    deleteButton.addEventListener('click', (e) => deleteSubtask(subtask.id), false);
 
     footer.append(toggleButton, deleteButton);
 

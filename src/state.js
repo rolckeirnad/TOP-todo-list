@@ -56,7 +56,14 @@ const addNewObject = (obj, type) => {
         [type]: [...data[type], obj],
     }
     return data;
-}
+};
+
+const saveNewState = (data, key) => {
+    state.setData(data, key);
+    const newState = state.getState();
+    saveToStorage(newState);
+    events.emit('subtasks updated', data);
+};
 
 const getIndex = (arr, id) => {
     return arr.findIndex(subtask => subtask.id == id);
@@ -79,7 +86,7 @@ const loadFromStorage = () => {
 
 const stateDispatcher = (action) => {
     switch (action.type) {
-        case 'LOAD_STATE':
+        case 'LOAD_STATE': {
             const loadedData = loadFromStorage();
             state.setState(loadedData);
             events.emit('initial view', loadedData.subtasks);
@@ -87,25 +94,36 @@ const stateDispatcher = (action) => {
             events.emit('tasks loaded', loadedData.tasks);
             events.emit('projects loaded', loadedData.projects);
             break;
-        case 'SAVE_NEW_OBJECT':
+        }
+        case 'SAVE_NEW_OBJECT': {
             const newData = addNewObject(action.obj, action.key);
             state.setState(newData);
             const FIRE_EVENT = `${action.key} updated`;
             events.emit(FIRE_EVENT, newData[action.key]);
             saveToStorage(newData);
             break;
-        case 'TOGGLE_STATE':
+        }
+        case 'TOGGLE_STATE': {
+            // Get data array, get index in array of desired object 
             const data = state.getData(action.key);
             const index = getIndex(data, action.id);
-            const completed = data[index].completed;
-            data[index] = Object.assign({}, data[index], { completed: !completed });
-            state.setData(data, action.key);
-            const newState = state.getState()
-            events.emit('subtasks updated', data);
-            saveToStorage(newState);
+            // Modify object
+            const isCompleted = data[index].completed;
+            data[index] = Object.assign({}, data[index], { completed: !isCompleted });
+            // Save new state
+            saveNewState(data, action.key);
             break;
-        case 'DELETE_TASK':
+        }
+        case 'DELETE_TASK': {
+            // Get data array, get index in array of desired object
+            const data = state.getData(action.key);
+            const index = getIndex(data, action.id);
+            // Modify object
+            data.splice(index, 1);
+            // Save new state
+            saveNewState(data, action.key);
             break;
+        }
         default:
             console.error('Not implemented ...');
     }

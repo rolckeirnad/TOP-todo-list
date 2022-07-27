@@ -2,7 +2,7 @@ import './taskCreation.css';
 import datepicker from 'js-datepicker';
 import format from 'date-fns/format';
 import { getNewObject } from '../../tasks';
-import state from '../../state';
+import events from '../../events';
 
 // This object defines the form inputs for each type of new object (project, task, subtask)
 // as well the required inputs and options for select tags
@@ -131,9 +131,14 @@ function readInputs() {
     const invalidInputs = validateInputs(inputValues, type);
     if (invalidInputs.length == 0) {
         // Create and store to state, this will trigger a rerender.
-        const newInput = getNewObject(inputValues, type); //
-        state.saveObject(newInput, type); // 
+        const newInput = getNewObject(inputValues, type);
+        const obj = {
+            type: 'SAVE_NEW_OBJECT',
+            key: 'subtasks',
+            obj: newInput,
+        };
         closeForm();
+        events.emit('modify state', obj);
     } else {
         // format invalid fields
         addClass(formInputs, invalidInputs, 'invalid');
