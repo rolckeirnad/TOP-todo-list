@@ -82,6 +82,7 @@ function loadSubtasks(subtasksArr) {
 }
 
 function loadDashboard(arr = null) {
+    events.removeTempEvents();
     const subtasks = arr ? state.getData('subtasks') : arr;
     if (subtasks.length > 0) {
         events.removeTempEvents();
