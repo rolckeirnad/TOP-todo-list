@@ -13,10 +13,10 @@ const Project = () => {
     return obj;
 };
 
-const Task = (title, description = null) => {
+const Task = (name, description = null) => {
     const obj = {
         id: getUniqueId(),
-        title,
+        name,
         description,
         subtasksNum: null,
         completedSubtasks: null,
@@ -31,6 +31,7 @@ const Subtask = () => {
     const obj = {
         id: getUniqueId(),
         parentId: 0, // Default id 0 will be 'Inbox'
+        parentName: null,
         name: null,
         notes: null,
         priority: 0,

@@ -3,6 +3,7 @@ import datepicker from 'js-datepicker';
 import format from 'date-fns/format';
 import { getNewObject } from '../../tasks';
 import events from '../../events';
+import state from '../../state';
 
 // This object defines the form inputs for each type of new object (project, task, subtask)
 // as well the required inputs and options for select tags
@@ -121,6 +122,17 @@ function createInputs(type) {
     return fr;
 }
 
+function getParentsArr(type) {
+    switch (type) {
+        case 'tasks':
+            return state.getData('projects');
+        case 'subtasks':
+            return state.getData('tasks');
+        default:
+            console.error('Type not valid')
+    }
+}
+
 function readInputs() {
     const form = document.querySelector('#formInputs');
     const type = form.dataset.type;
@@ -131,7 +143,12 @@ function readInputs() {
     const invalidInputs = validateInputs(inputValues, type);
     if (invalidInputs.length == 0) {
         // Create and store to state, this will trigger a rerender.
-        const newInput = getNewObject(inputValues, type);
+        let newInput = getNewObject(inputValues, type);
+        if (type != 'projects') {
+            const parents = getParentsArr(type); // Get parent objects of new object
+            const parentIndex = parents.findIndex(parent => parent.id == newInput.parentId); // Search parent object
+            newInput = Object.assign({}, newInput, { parentName: parents[parentIndex].name })
+        }
         const obj = {
             type: 'SAVE_NEW_OBJECT',
             key: 'subtasks',
