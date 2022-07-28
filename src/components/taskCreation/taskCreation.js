@@ -4,6 +4,7 @@ import format from 'date-fns/format';
 import { getNewObject } from '../../tasks';
 import events from '../../events';
 import state from '../../state';
+import { dateFormat } from '../../configuration';
 
 // This object defines the form inputs for each type of new object (project, task, subtask)
 // as well the required inputs and options for select tags
@@ -245,7 +246,7 @@ function createPage(type = "subtasks") {
     if (calendar) {
         const dueDateCalendar = datepicker(calendar, {
             formatter: (input, date, instance) => {
-                const value = format(date, "MMMM d'th,' yyyy");
+                const value = format(date, dateFormat);
                 input.value = value;
             }
         });
