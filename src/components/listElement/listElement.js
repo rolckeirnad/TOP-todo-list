@@ -1,5 +1,7 @@
 import './listElement.css';
 import events from '../../events';
+import { format, parse } from 'date-fns';
+import { dateFormat } from '../../configuration';
 
 const priorityValueList = ['Low', 'Medium', 'High'];
 const priorityIconList = [
@@ -36,7 +38,7 @@ function deleteSubtask(id) {
     events.emit('modify state', obj);
 }
 
-function listElement(subtask) {
+function listElement(subtask, options) {
     const el = document.createElement('div');
     el.classList.add('list-element');
 
@@ -50,25 +52,43 @@ function listElement(subtask) {
     priorityIcon.src = icons(priorityIconList[subtask.priority]);
     priorityIcon.classList.add('list-element-priority-icon', 'list-element-icon');
 
-    const titleTextNode = document.createTextNode(subtask.name)
+    const titleText = document.createElement('span');
+    titleText.classList.add('list-element-title-text');
+    titleText.textContent = subtask.name;
 
-    nameContainer.append(priorityIcon, titleTextNode);
+    nameContainer.append(priorityIcon, titleText);
 
-    const parentInfoContainer = document.createElement('p');
-    parentInfoContainer.classList.add('list-element-parent-container');
+    if (options.displayDate) {
+        const dateContainer = document.createElement('div');
+        dateContainer.classList.add('list-element-date-container');
+        const dateSpan = document.createElement('span');
+        dateSpan.classList.add('list-element-date-span');
+        const parsedDate = parse(subtask.dueDate, dateFormat, new Date());
+        const formattedDate = format(parsedDate, options.dateFormat);
+        dateSpan.textContent = formattedDate;
+        dateContainer.appendChild(dateSpan);
+        nameContainer.appendChild(dateContainer);
+    }
 
-    const parentContainerPlaceholder = document.createTextNode('in ');
-    const parentName = document.createElement('span');
-    parentName.classList.add('list-element-parent-name');
-    parentName.textContent = subtask.parentName;
+    header.append(nameContainer);
 
-    parentInfoContainer.append(parentContainerPlaceholder, parentName);
-    header.append(nameContainer, parentInfoContainer);
+    if (options.displayParent) {
+        const parentInfoContainer = document.createElement('p');
+        parentInfoContainer.classList.add('list-element-parent-container');
+
+        const parentContainerPlaceholder = document.createTextNode('in ');
+        const parentName = document.createElement('span');
+        parentName.classList.add('list-element-parent-name');
+        parentName.textContent = subtask.parentName;
+
+        parentInfoContainer.append(parentContainerPlaceholder, parentName);
+        header.appendChild(parentInfoContainer);
+    }
 
     const body = document.createElement('div');
     body.classList.add('list-element-body');
 
-    if (subtask.notes) {
+    if (options.displayNotes && subtask.notes) {
         const notesContainer = document.createElement('div');
         notesContainer.classList.add('list-element-data');
 
@@ -84,7 +104,7 @@ function listElement(subtask) {
         body.appendChild(notesContainer);
     }
     // If subtask has a checklist
-    if (subtask.checklist) {
+    if (options.displayChecklist && subtask.checklist) {
         const checklistContainer = document.createElement('div');
         checklistContainer.classList.add('list-element-data');
 
@@ -154,3 +174,15 @@ function listElement(subtask) {
 }
 
 export default listElement;
+
+// This element on clicking edit button we can edit the subtask
+// On Mark/Unmark as complete should update the value and save to storage
+// On delete should delete the specified card
+
+// Maybe I need to implement a reducer to prevent editing the state.js
+
+// state.js will only keep state of app (data structure, create read update and delete functionalities)
+// --> Maybe I can add reducer inside state to control actions from files
+// events.js will only add events functionality
+// reducer.js will only act as a bridge for functionalities from 
+// state(create, read, update, delete), storage(save, load, delete) and dispatching emit events

@@ -16,6 +16,10 @@
     width: 100%;
 }
 
+.list-element-title-text {
+    flex: 1;
+}
+
 .list-element-data {
     display: flex;
     align-items: flex-start;
