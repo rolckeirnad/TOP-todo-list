@@ -29,12 +29,6 @@ function intervalHelper(obj, date) {
 
 const _todosView = document.querySelector('#todos-view');
 
-const parents = state.getData('tasks');
-
-function getParent(id) {
-    return parents.findIndex(parent => parent.id == id);
-}
-
 function header() {
     // Back logo, header text, options
     const headerContainer = document.createElement('div');
@@ -101,11 +95,7 @@ function loadInboxSubtasks(subtasksArr) {
         const filteredData = subtasksArr.filter(subtask => filterInterface.fn(subtask.dueDate, dateFormat));
         // For each element create a new card and append it to column
         for (const subtask of filteredData) {
-            // We should only pass data to display to this element, so parent name should be included in the function call
-            const parentIndex = getParent(subtask.parentId);
-            const parentName = parents[parentIndex].title;
-            const obj = Object.assign({}, subtask, { parentName: parentName });
-            const subtaskEl = listElement(obj);
+            const subtaskEl = listElement(subtask);
             containerEl.appendChild(subtaskEl);
         }
     }
