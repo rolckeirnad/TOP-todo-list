@@ -22,8 +22,8 @@ export const sidebarEntries = [
     { name: 'Dashboard', icon: './icons8-dashboard-layout-100.png', counter: false, fn: loadDashboard },
     { name: 'Inbox', icon: './icons8-inbox-100.png', counter: true, fn: () => loadInbox(), startDate: startOfToday(), endDate: new Date() },
     { name: 'Today', icon: './icons8-today-100.png', counter: true, fn: (obj) => getList(obj), startDate: startOfToday(), endDate: add(startOfToday(), { hours: 23, minutes: 59, seconds: 59 }) },
-    { name: 'Tomorrow', icon: './icons8-date-to-100.png', counter: true, fn: () => console.log("Tomorrow"), startDate: add(startOfToday(), { days: 1 }), endDate: add(startOfToday(), { days: 1, hours: 23, minutes: 59, seconds: 59 }) },
-    { name: 'Upcoming', icon: './icons8-calendar-100.png', counter: true, fn: () => console.log("Upcoming"), startDate: add(startOfToday(), { days: 2 }), endDate: add(startOfToday(), { days: 13, hours: 23, minutes: 59, seconds: 59 }) },
+    { name: 'Tomorrow', icon: './icons8-date-to-100.png', counter: true, fn: (obj) => getList(obj), startDate: add(startOfToday(), { days: 1 }), endDate: add(startOfToday(), { days: 1, hours: 23, minutes: 59, seconds: 59 }) },
+    { name: 'Upcoming', icon: './icons8-calendar-100.png', counter: true, fn: (obj) => getList(obj), startDate: add(startOfToday(), { days: 2 }), endDate: add(startOfToday(), { days: 13, hours: 23, minutes: 59, seconds: 59 }) },
     //{ name: 'Anytime', icon: './icons8-month-view-100.png', counter: true, fn: () => console.log("Anytime") },
 ];
 
@@ -43,4 +43,6 @@ export const dashboardColumns = [
 ];
 
 /* Short date format to display in subtasks  */
+export const shortDate = "dd MMM";
 export const dateFormat = "MMMM d'th,' yyyy";
+export const longDate = "EEEE, dd MMMM";
