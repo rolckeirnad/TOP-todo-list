@@ -2,16 +2,10 @@ import './dashboard.css';
 import first from '../first/first';
 import events from '../../events';
 import state from '../../state';
-import { startOfToday, add, parse, isWithinInterval } from 'date-fns';
+import { parse, isWithinInterval } from 'date-fns';
 import dashboardCard from '../dashboardCard/dashboardCard';
-
-// This could be loaded from a configuration file
-const columns = [
-    { name: 'Today', id: 'today', startDate: startOfToday(), endDate: add(startOfToday(), { hours: 23, minutes: 59, seconds: 59 }) },
-    { name: 'Tomorrow', id: 'tomorrow', startDate: add(startOfToday(), { days: 1 }), endDate: add(startOfToday(), { days: 1, hours: 23, minutes: 59, seconds: 59 }) },
-    { name: 'Next 7 Days', id: 'week', startDate: add(startOfToday(), { days: 2 }), endDate: add(startOfToday(), { days: 6, hours: 23, minutes: 59, seconds: 59 }) },
-    { name: 'Next 30 Days', id: 'month', startDate: add(startOfToday(), { days: 7 }), endDate: add(startOfToday(), { days: 30, hours: 23, minutes: 59, seconds: 59 }) },
-];
+import { dashboardColumns } from '../../configuration';
+import { dateFormat } from '../../configuration';
 
 const todosView = document.querySelector('#todos-view');
 
@@ -25,7 +19,7 @@ function dashboard() {
     const el = document.createElement('div');
     el.classList.add('dashboard-container');
 
-    for (let column of columns) {
+    for (let column of dashboardColumns) {
         const columnContainer = document.createElement('div');
         columnContainer.classList.add('dashboard-column');
         columnContainer.id = `dashboard-${column.id}`;
@@ -52,7 +46,7 @@ function dashboard() {
 
 function cacheElements() {
     let cached = {};
-    for (let element of columns) {
+    for (let element of dashboardColumns) {
         const el = document.querySelector(`#dashboard-${element.id}-tasks`);
         Object.assign(cached, { [element.id]: el })
     }
@@ -61,10 +55,10 @@ function cacheElements() {
 
 function loadSubtasks(subtasksArr) {
     const taskContainer = cacheElements();
-    for (let column of columns) {
+    for (let column of dashboardColumns) {
         // Filter data and get elements based on start and end dates
         const filteredData = subtasksArr.filter(subtask => {
-            const subtaskDate = parse(subtask.dueDate, "MMMM d'th,' yyyy", new Date());
+            const subtaskDate = parse(subtask.dueDate, dateFormat, new Date());
             return (subtask.completed == false) && isWithinInterval(subtaskDate, {
                 start: column.startDate,
                 end: column.endDate,

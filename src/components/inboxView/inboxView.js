@@ -4,6 +4,7 @@ import listElement from '../listElement/listElement';
 import createPage from '../taskCreation/taskCreation';
 import events from '../../events';
 import { isBefore, isAfter, startOfToday, add, parse, isWithinInterval } from 'date-fns';
+import { dateFormat } from '../../configuration';
 
 const columns = [
     { name: 'Expired', id: 'expired', startDate: null, endDate: startOfToday(), fn: (obj, date) => isBefore(date, obj.endDate) },
@@ -11,8 +12,6 @@ const columns = [
     { name: 'Tomorrow', id: 'tomorrow', startDate: add(startOfToday(), { days: 1 }), endDate: add(startOfToday(), { days: 1, hours: 23, minutes: 59, seconds: 59 }), fn: intervalHelper },
     { name: 'Upcoming', id: 'upcoming', startDate: add(startOfToday(), { days: 2 }), endDate: null, fn: (obj, date) => isAfter(date, obj.startDate) },
 ];
-
-const dateFormat = "MMMM d'th,' yyyy";
 
 const dateInterface = (obj) => ({
     fn: (date, format) => {

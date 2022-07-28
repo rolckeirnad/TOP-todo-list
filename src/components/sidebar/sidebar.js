@@ -1,20 +1,8 @@
 import './sidebar.css';
 import events from '../../events';
-import { startOfToday, parse, add, isWithinInterval } from 'date-fns';
+import { parse, isWithinInterval } from 'date-fns';
 import createPage from '../taskCreation/taskCreation';
-import loadDashboard from '../dashboard/dashboard';
-import loadInbox from '../inboxView/inboxView';
-
-// Test data - This will replaced with state and some file configuration
-const defEntries = [
-    { name: 'Dashboard', icon: './icons8-dashboard-layout-100.png', counter: false, fn: loadDashboard },
-    { name: 'Inbox', icon: './icons8-inbox-100.png', counter: true, fn: () => loadInbox("Inbox", subtask => subtask.parentId == 0), startDate: startOfToday(), endDate: new Date() },
-    { name: 'Today', icon: './icons8-today-100.png', counter: true, fn: () => console.log("Today"), startDate: startOfToday(), endDate: add(startOfToday(), { hours: 23, minutes: 59, seconds: 59 }) },
-    { name: 'Tomorrow', icon: './icons8-date-to-100.png', counter: true, fn: () => console.log("Tomorrow"), startDate: add(startOfToday(), { days: 1 }), endDate: add(startOfToday(), { days: 1, hours: 23, minutes: 59, seconds: 59 }) },
-    { name: 'Upcoming', icon: './icons8-calendar-100.png', counter: true, fn: () => console.log("Upcoming"), startDate: add(startOfToday(), { days: 2 }), endDate: add(startOfToday(), { days: 13, hours: 23, minutes: 59, seconds: 59 }) },
-    //{ name: 'Anytime', icon: './icons8-month-view-100.png', counter: true, fn: () => console.log("Anytime") },
-];
-// End of Test data
+import { sidebarEntries } from '../../configuration';
 
 const icons = require.context(
     './',
@@ -22,10 +10,8 @@ const icons = require.context(
     /\.(png|jpg|jpeg|gif)$/
 );
 
-const _todoView = document.querySelector('#todos-view');
-
 function updateCounters(subtasksArr) {
-    for (let entry of defEntries) {
+    for (let entry of sidebarEntries) {
         if (entry.name == 'Inbox') {
             const subtasks = subtasksArr.filter(subtask => subtask.parentId == 0 && subtask.completed == false);
             const name = entry.name.toLowerCase();
@@ -64,7 +50,7 @@ function createLi(obj) {
     const li = document.createElement('li');
     li.classList.add('default-entry');
     li.id = `${lowerCaseName}-Entry`;
-    li.addEventListener('click', obj.fn);
+    li.addEventListener('click', () => obj.fn(obj));
     // Icon
     const setIcon = new Image();
     setIcon.src = icons(obj.icon);
@@ -101,7 +87,7 @@ function sidebar() {
     defaultEntries.classList.add('default-entries');
     defaultEntries.id = 'defaultEntries';
 
-    for (let entry of defEntries) {
+    for (let entry of sidebarEntries) {
         const newLi = createLi(entry);
         defaultEntries.appendChild(newLi);
     }
