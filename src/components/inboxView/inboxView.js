@@ -4,7 +4,7 @@ import listElement from '../listElement/listElement';
 import createPage from '../taskCreation/taskCreation';
 import events from '../../events';
 import { isBefore, isAfter, startOfToday, add, parse, isWithinInterval } from 'date-fns';
-import { dateFormat } from '../../configuration';
+import { dateFormat, shortDate } from '../../configuration';
 
 const columns = [
     { name: 'Expired', id: 'expired', startDate: null, endDate: startOfToday(), fn: (obj, date) => isBefore(date, obj.endDate) },
@@ -93,9 +93,16 @@ function loadInboxSubtasks(subtasksArr) {
         const filterInterface = dateInterface(column);
         // Get all elements which pass the filter function
         const filteredData = subtasksArr.filter(subtask => filterInterface.fn(subtask.dueDate, dateFormat));
+        const cardOptions = {
+            displayParent: false,
+            displayDate: true,
+            displayNotes: true,
+            displayChecklist: false,
+            dateFormat: shortDate,
+        }
         // For each element create a new card and append it to column
         for (const subtask of filteredData) {
-            const subtaskEl = listElement(subtask);
+            const subtaskEl = listElement(subtask, cardOptions);
             containerEl.appendChild(subtaskEl);
         }
     }
