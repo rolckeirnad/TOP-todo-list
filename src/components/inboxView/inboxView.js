@@ -10,7 +10,7 @@ const columns = [
     { name: 'Expired', id: 'expired', startDate: null, endDate: startOfToday(), fn: (obj, date) => isBefore(date, obj.endDate) },
     { name: 'Today', id: 'today', startDate: startOfToday(), endDate: add(startOfToday(), { hours: 23, minutes: 59, seconds: 59 }), fn: intervalHelper },
     { name: 'Tomorrow', id: 'tomorrow', startDate: add(startOfToday(), { days: 1 }), endDate: add(startOfToday(), { days: 1, hours: 23, minutes: 59, seconds: 59 }), fn: intervalHelper },
-    { name: 'Upcoming', id: 'upcoming', startDate: add(startOfToday(), { days: 2 }), endDate: null, fn: (obj, date) => isAfter(date, obj.startDate) },
+    { name: 'Upcoming', id: 'upcoming', startDate: add(startOfToday(), { days: 1 }), endDate: null, fn: (obj, date) => isAfter(date, obj.startDate) },
 ];
 
 const dateInterface = (obj) => ({
