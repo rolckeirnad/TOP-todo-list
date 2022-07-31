@@ -10,6 +10,7 @@ import { dateFormat } from '../../configuration';
 // as well the required inputs and options for select tags
 const form = {
     projects: {
+        name: 'Project',
         requiredInputs: ['name'],
         inputs: [
             {
@@ -26,6 +27,8 @@ const form = {
         ],
     },
     tasks: {
+        name: 'Task',
+        requiredInputs: [],
         inputs: [
             {
                 labelId: 'title', labelText: 'Task name: ', tag: 'input',
@@ -49,6 +52,7 @@ const form = {
         ],
     },
     subtasks: {
+        name: 'Subtask',
         requiredInputs: ['name', 'priority', 'dueDate'],
         inputs: [
             {
@@ -152,7 +156,7 @@ function readInputs() {
         }
         const obj = {
             type: 'SAVE_NEW_OBJECT',
-            key: 'subtasks',
+            key: type,
             obj: newInput,
         };
         closeForm();
@@ -235,13 +239,13 @@ function displayContainer() {
 
 function createPage(type = "subtasks") {
     displayContainer();
-    const form = cacheFormElements();
+    const formEl = cacheFormElements();
 
-    form.title.textContent = `Create new ${type}`;
-    form.userInput.setAttribute('data-type', type);
+    formEl.title.textContent = `Create new ${form[type].name}`;
+    formEl.userInput.setAttribute('data-type', type);
     const inputs = createInputs(type);
 
-    form.userInput.append(inputs);
+    formEl.userInput.append(inputs);
     const calendar = document.querySelector('#dueDate');
     if (calendar) {
         const dueDateCalendar = datepicker(calendar, {
