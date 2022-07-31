@@ -13,11 +13,12 @@ const Project = () => {
     return obj;
 };
 
-const Task = (name, description = null) => {
+const Task = () => {
     const obj = {
         id: getUniqueId(),
-        name,
-        description,
+        parentId: null,
+        name: null,
+        description: null,
         subtasksNum: null,
         completedSubtasks: null,
         progress: 0,
@@ -48,8 +49,8 @@ export const getNewObject = (inputs, type) => {
     switch (type) {
         case 'projects':
             return Object.assign({}, Project(), inputs);
-        /* case 'tasks':
-            return Task(inputs); */
+        case 'tasks':
+            return Object.assign({}, Task(), inputs);
         case 'subtasks':
             return Object.assign({}, Subtask(), inputs);
         default:

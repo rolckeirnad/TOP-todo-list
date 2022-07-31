@@ -28,14 +28,14 @@ const form = {
     },
     tasks: {
         name: 'Task',
-        requiredInputs: [],
+        requiredInputs: ['name'],
         inputs: [
             {
-                labelId: 'title', labelText: 'Task name: ', tag: 'input',
+                labelId: 'name', labelText: 'Task name: ', tag: 'input',
                 attr: [
                     { name: 'type', value: 'text' },
-                    { name: 'id', value: 'title' },
-                    { name: 'name', value: 'title' },
+                    { name: 'id', value: 'name' },
+                    { name: 'name', value: 'name' },
                     { name: 'autocomplete', value: 'off' },
                     { name: 'required', value: '' },
                     { name: 'autofocus', value: true },
@@ -138,7 +138,7 @@ function getParentsArr(type) {
     }
 }
 
-function readInputs() {
+function readInputs(uid) {
     const form = document.querySelector('#formInputs');
     const type = form.dataset.type;
     const formInputs = form.elements;
@@ -149,10 +149,12 @@ function readInputs() {
     if (invalidInputs.length == 0) {
         // Create and store to state, this will trigger a rerender.
         let newInput = getNewObject(inputValues, type);
+        Object.assign(newInput, { parentId: uid })
         if (type != 'projects') {
             const parents = getParentsArr(type); // Get parent objects of new object
             const parentIndex = parents.findIndex(parent => parent.id == newInput.parentId); // Search parent object
-            newInput = Object.assign({}, newInput, { parentName: parents[parentIndex].name })
+            newInput = Object.assign({}, newInput, { parentName: parents[parentIndex].name });
+            parents[parentIndex][type].push(newInput.id);
         }
         const obj = {
             type: 'SAVE_NEW_OBJECT',
@@ -197,7 +199,7 @@ function cacheFormElements() {
     }
 }
 
-function displayContainer() {
+function displayContainer(uid) {
     const pageContainer = document.createElement('div');
     pageContainer.classList.add('form-background');
     pageContainer.id = "formPage";
@@ -230,15 +232,15 @@ function displayContainer() {
     saveButton.innerText = "Save";
     saveButton.setAttribute('type', 'button');
     saveButton.classList.add('form-save-button');
-    saveButton.addEventListener('click', readInputs);
+    saveButton.addEventListener('click', () => readInputs(uid));
 
     formContainer.append(formHeader, inputsContainer, saveButton);
 
     document.body.append(pageContainer);
 }
 
-function createPage(type = "subtasks") {
-    displayContainer();
+function createPage(type = "subtasks", id = null) {
+    displayContainer(id);
     const formEl = cacheFormElements();
 
     formEl.title.textContent = `Create new ${form[type].name}`;
