@@ -1,0 +1,8 @@
+.project-element {
+    display: flex;
+    border: 1px solid black;
+}
+
+.project-element-icon-title-container {
+    flex: 1;
+}

@@ -1,0 +1,9 @@
+.project-view-header-container {
+    display: flex;
+}
+
+.project-view-content-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
