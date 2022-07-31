@@ -53,10 +53,7 @@ function loadSubtasks(subtasksArr) {
         // Filter data and get elements based on start and end dates
         const filteredData = subtasksArr.filter(subtask => {
             const subtaskDate = parse(subtask.dueDate, dateFormat, new Date());
-            return (subtask.completed == false) && isWithinInterval(subtaskDate, {
-                start: column.startDate,
-                end: column.endDate,
-            });
+            return (subtask.completed == false) && column.filter(column, subtaskDate);
         });
         for (let subtask of filteredData) {
             // For every element in array, create a new Node element
