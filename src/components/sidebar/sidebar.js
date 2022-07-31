@@ -1,6 +1,6 @@
 import './sidebar.css';
 import events from '../../events';
-import { parse, isWithinInterval } from 'date-fns';
+import { parse } from 'date-fns';
 import createPage from '../taskCreation/taskCreation';
 import { sidebarEntries } from '../../configuration';
 
@@ -22,10 +22,7 @@ function updateCounters(subtasksArr) {
             const endDate = entry.endDate
             const subtasks = subtasksArr.filter(subtask => {
                 const subtaskDate = parse(subtask.dueDate, "MMMM d'th,' yyyy", new Date());
-                return (subtask.completed == false) && isWithinInterval(subtaskDate, {
-                    start: startDate,
-                    end: endDate,
-                });
+                return (subtask.completed == false) && entry.filter(entry, subtaskDate);
             })
             const name = entry.name.toLowerCase();
             const counter = document.querySelector(`#${name}-Counter`);

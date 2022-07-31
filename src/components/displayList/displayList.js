@@ -22,19 +22,14 @@ function header(title) {
 function list() {
     const listContainer = document.createElement('div');
     listContainer.id = 'display-list-tasks-container';
-    //listContainer.classList.add('display-list-tasks-container');
-
     return listContainer;
 }
 
-function setInterval(start, end) {
+function setInterval(entry) {
     return function (arr) {
         const newArr = arr.filter(subtask => {
             const parsedDate = parse(subtask.dueDate, dateFormat, new Date());
-            return isWithinInterval(parsedDate, {
-                start,
-                end,
-            });
+            return entry.filter(entry, parsedDate);
         });
         // Populate list
         const container = document.querySelector('#display-list-tasks-container');
@@ -62,7 +57,7 @@ function getList(entry) {
     _todosView.replaceChildren(setHeader);
     _todosView.appendChild(setList);
 
-    loadSubtasks = setInterval(entry.startDate, entry.endDate);
+    loadSubtasks = setInterval(entry);
 
     const data = state.getData('subtasks');
     loadSubtasks(data)

@@ -3,7 +3,7 @@
 */
 
 /* Dependencies */
-import { startOfToday, add } from 'date-fns';
+import { startOfToday, add, isWithinInterval, isBefore, isAfter } from 'date-fns';
 import loadDashboard from './components/dashboard/dashboard';
 import loadInbox from './components/inboxView/inboxView';
 import getList from './components/displayList/displayList';
@@ -21,11 +21,18 @@ import getList from './components/displayList/displayList';
 export const sidebarEntries = [
     { name: 'Dashboard', icon: './icons8-dashboard-layout-100.png', counter: false, fn: loadDashboard },
     { name: 'Inbox', icon: './icons8-inbox-100.png', counter: true, fn: () => loadInbox(), startDate: startOfToday(), endDate: new Date() },
-    { name: 'Today', icon: './icons8-today-100.png', counter: true, fn: (obj) => getList(obj), startDate: startOfToday(), endDate: add(startOfToday(), { hours: 23, minutes: 59, seconds: 59 }) },
-    { name: 'Tomorrow', icon: './icons8-date-to-100.png', counter: true, fn: (obj) => getList(obj), startDate: add(startOfToday(), { days: 1 }), endDate: add(startOfToday(), { days: 1, hours: 23, minutes: 59, seconds: 59 }) },
-    { name: 'Upcoming', icon: './icons8-calendar-100.png', counter: true, fn: (obj) => getList(obj), startDate: add(startOfToday(), { days: 2 }), endDate: add(startOfToday(), { days: 13, hours: 23, minutes: 59, seconds: 59 }) },
-    //{ name: 'Anytime', icon: './icons8-month-view-100.png', counter: true, fn: () => console.log("Anytime") },
+    { name: 'Today', icon: './icons8-today-100.png', counter: true, fn: (obj) => getList(obj), filter: intervalHelper, startDate: startOfToday(), endDate: add(startOfToday(), { hours: 23, minutes: 59, seconds: 59 }) },
+    { name: 'Tomorrow', icon: './icons8-date-to-100.png', counter: true, fn: (obj) => getList(obj), filter: intervalHelper, startDate: add(startOfToday(), { days: 1 }), endDate: add(startOfToday(), { days: 1, hours: 23, minutes: 59, seconds: 59 }) },
+    { name: 'Upcoming', icon: './icons8-calendar-100.png', counter: true, fn: (obj) => getList(obj), filter: (obj, date) => isAfter(date, obj.startDate), startDate: add(startOfToday(), { days: 1 }) },
+    { name: 'Expired', icon: './icons8-month-view-100.png', counter: true, fn: (obj) => getList(obj), filter: (obj, date) => isBefore(date, obj.endDate), endDate: startOfToday() },
 ];
+
+function intervalHelper(obj, date) {
+    return isWithinInterval(date, {
+        start: obj.startDate,
+        end: obj.endDate,
+    });
+}
 
 /** 
  * @param {Object[]} dashboardColumns
