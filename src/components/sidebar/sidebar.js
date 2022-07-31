@@ -34,7 +34,7 @@ function updateProjects(projectsArr) {
     const projectsContainer = document.querySelector('#userEntries');
     projectsContainer.replaceChildren();
     for (let project of projectsArr) {
-        const setProject = Object.assign(project, { icon: './icons8-box-100.png', fn: () => loadProjectView(project), project });
+        const setProject = Object.assign(project, { icon: './icons8-box-100.png', fn: () => loadProjectView(project) });
         const newLi = createLi(setProject);
         projectsContainer.appendChild(newLi);
     }
@@ -45,8 +45,8 @@ function createLi(obj) {
     const lowerCaseName = obj.name.toLowerCase();
     const li = document.createElement('li');
     li.classList.add('default-entry');
-    if (obj.project) {
-        li.dataset.id = obj.project.id;
+    if (obj.id) {
+        li.dataset.id = obj.id;
     } else {
         li.id = `${lowerCaseName}-Entry`;
     }
