@@ -3,6 +3,7 @@ import events from '../../events';
 import { parse } from 'date-fns';
 import createPage from '../taskCreation/taskCreation';
 import { sidebarEntries } from '../../configuration';
+import loadProjectView from '../projectView/projectView';
 
 const icons = require.context(
     './',
@@ -18,8 +19,6 @@ function updateCounters(subtasksArr) {
             const counter = document.querySelector(`#${name}-Counter`);
             counter.textContent = subtasks.length;
         } else if (entry.counter) {
-            const startDate = entry.startDate;
-            const endDate = entry.endDate
             const subtasks = subtasksArr.filter(subtask => {
                 const subtaskDate = parse(subtask.dueDate, "MMMM d'th,' yyyy", new Date());
                 return (subtask.completed == false) && entry.filter(entry, subtaskDate);
@@ -35,7 +34,7 @@ function updateProjects(projectsArr) {
     const projectsContainer = document.querySelector('#userEntries');
     projectsContainer.replaceChildren();
     for (let project of projectsArr) {
-        const setProject = Object.assign(project, { icon: './icons8-box-100.png' });
+        const setProject = Object.assign(project, { icon: './icons8-box-100.png', fn: () => loadProjectView(project), project });
         const newLi = createLi(setProject);
         projectsContainer.appendChild(newLi);
     }
@@ -46,7 +45,11 @@ function createLi(obj) {
     const lowerCaseName = obj.name.toLowerCase();
     const li = document.createElement('li');
     li.classList.add('default-entry');
-    li.id = `${lowerCaseName}-Entry`;
+    if (obj.project) {
+        li.dataset.id = obj.project.id;
+    } else {
+        li.id = `${lowerCaseName}-Entry`;
+    }
     li.addEventListener('click', () => obj.fn(obj));
     // Icon
     const setIcon = new Image();
