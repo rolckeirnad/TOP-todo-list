@@ -4,6 +4,7 @@ import { parse } from 'date-fns';
 import createPage from '../taskCreation/taskCreation';
 import { sidebarEntries } from '../../configuration';
 import loadProjectView from '../projectView/projectView';
+import state from '../../state';
 
 const icons = require.context(
     './',
@@ -32,13 +33,40 @@ function updateCounters(subtasksArr) {
 
 function updateProjects(projectsArr) {
     const projectsContainer = document.querySelector('#userEntries');
+    const tasks = state.getData('tasks');
     projectsContainer.replaceChildren();
     for (let project of projectsArr) {
         const setProject = Object.assign(project, { icon: './icons8-box-100.png', fn: () => loadProjectView(project) });
+        const mainProjectContainer = document.createElement('div');
+        mainProjectContainer.classList.add('sidebar-project-container');
         const newLi = createLi(setProject);
-        projectsContainer.appendChild(newLi);
+        mainProjectContainer.append(newLi);
+        const projectTasksContainer = document.createElement('div');
+        projectTasksContainer.classList.add('sidebar-project-tasks-container');
+        projectTasksContainer.id = `sidebar_${project.id}`;
+        mainProjectContainer.appendChild(projectTasksContainer);
+        projectsContainer.appendChild(mainProjectContainer);
     }
+    updateTasks(tasks);
+}
 
+function updateTasks(tasksArr) {
+    clearTasks();
+    for (const task of tasksArr) {
+        if (task.parentId) {
+            const container = document.querySelector(`#sidebar_${task.parentId}`);
+            const taskEntry = Object.assign({}, task, { icon: './icons8-folder-100.png', fn: () => console.log("I'm calling task view") });
+            const setTask = createLi(taskEntry);
+            container.appendChild(setTask);
+        }
+    }
+}
+
+function clearTasks() {
+    const containers = document.querySelectorAll('[id^=sidebar_]');
+    for (const container of containers) {
+        container.replaceChildren();
+    }
 }
 
 function createLi(obj) {
@@ -125,5 +153,6 @@ events.on('subtasks loaded', updateCounters);
 events.on('projects loaded', updateProjects);
 events.on('subtasks updated', updateCounters);
 events.on('projects updated', updateProjects);
+events.on('tasks updated', updateTasks);
 
 export default sidebar();

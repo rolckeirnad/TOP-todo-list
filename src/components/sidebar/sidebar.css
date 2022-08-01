@@ -68,3 +68,8 @@
     justify-content: center;
     align-items: center;
 }
+
+.sidebar-project-tasks-container {
+    margin: 0px 0px 0px 10px;
+    font-size: 1rem;
+}
