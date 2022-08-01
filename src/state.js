@@ -7,6 +7,7 @@ function newState() {
         tasks: [  // Here we'll store tasks of projects
             {
                 id: 0,
+                parentId: null,
                 name: "Inbox",
                 subtasksNum: null,
                 completedSubtasks: null,
@@ -39,6 +40,7 @@ const initialData = {
         {
             id: 0,
             name: "Inbox",
+            parentId: null,
             subtasksNum: null,
             completedSubtasks: null,
             progress: 0,

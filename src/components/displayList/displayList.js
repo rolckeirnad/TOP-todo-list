@@ -2,7 +2,7 @@ import './displayList.css';
 import events from '../../events';
 import state from '../../state';
 import { dateFormat, shortDate } from '../../configuration';
-import { isWithinInterval, parse } from 'date-fns';
+import { parse } from 'date-fns';
 import listElement from '../listElement/listElement';
 
 const _todosView = document.querySelector('#todos-view');
