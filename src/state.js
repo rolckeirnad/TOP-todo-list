@@ -64,7 +64,7 @@ const saveNewState = (data, key) => {
     state.setData(data, key);
     const newState = state.getState();
     saveToStorage(newState);
-    events.emit('subtasks updated', data);
+    events.emit(`${key} updated`, data);
 };
 
 const getIndex = (arr, id) => {
