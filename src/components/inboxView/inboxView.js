@@ -42,7 +42,7 @@ function header() {
     addButton.classList.add('list-header-add-button');
     addButton.setAttribute('type', 'button');
     addButton.innerText = "Add new subtask +";
-    addButton.addEventListener('click', () => createPage('subtasks','0'));
+    addButton.addEventListener('click', () => createPage('subtasks',0));
 
     headerContainer.append(headerText, addButton);
     return headerContainer;

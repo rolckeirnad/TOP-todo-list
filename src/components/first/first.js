@@ -16,7 +16,7 @@ function first() {
     firstButton.classList.add('first-add-button');
     firstButton.setAttribute('type', 'button');
     firstButton.innerText = "+";
-    firstButton.addEventListener('click', () => createPage('subtasks'));
+    firstButton.addEventListener('click', () => createPage('subtasks', 0));
 
     const firstTask = document.createElement('p');
     firstTask.classList.add('first-block');
