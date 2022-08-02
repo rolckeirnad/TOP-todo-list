@@ -53,7 +53,6 @@ function setProject(project) {
 }
 
 function loadProjectView(project) {
-    console.log(project)
     events.removeTempEvents();
     const newPage = createHeader(project);
     const newContentContainer = createContentContainer();
