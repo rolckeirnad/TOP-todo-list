@@ -1,4 +1,14 @@
+import events from '../../events';
 import './projectElement.css';
+
+function deleteTask(id) {
+    const obj = {
+        type: 'DELETE_TASK',
+        key: 'tasks',
+        id,
+    }
+    events.emit('modify state', obj);
+}
 
 function projectElement(task) {
     const el = document.createElement('div');
@@ -11,18 +21,18 @@ function projectElement(task) {
     const taskTitle = document.createElement('span');
     taskTitle.textContent = task.name;
 
-    const optionButton = document.createElement('button');
-    optionButton.classList.add('project-element-options-button');
-    optionButton.setAttribute('type', 'button');
-    optionButton.innerText = "Delete";
-    optionButton.addEventListener('click', () => console.log("I should delete this"));
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('project-element-options-button');
+    deleteButton.setAttribute('type', 'button');
+    deleteButton.innerText = "Delete";
+    deleteButton.addEventListener('click', () => deleteTask(task.id));
 
     const taskView = document.createElement('div');
     taskView.classList.add('project-element-icon-title-container')
     taskView.append(percentage, taskTitle);
-    taskView.addEventListener('click', () => console.log('I should show complete task view'),);
+    taskView.addEventListener('click', () => console.log('I should show complete task view', task.id));
 
-    el.append(taskView, optionButton);
+    el.append(taskView, deleteButton);
     return el;
 }
 
