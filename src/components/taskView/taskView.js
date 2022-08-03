@@ -25,6 +25,15 @@ function toggleState(id) {
     events.emit('modify state', obj);
 }
 
+function deleteSubtask(id) {
+    // Delete Subtask
+    const obj = {
+        type: 'DELETE_TASK',
+        key: 'subtasks',
+        id,
+    };
+    events.emit('modify state', obj);
+}
 
 function createHeaderContainer(header, id) {
     const container = document.createElement('div');
@@ -115,7 +124,8 @@ function createSubtaskElement(subtask) {
     const optionsButton = document.createElement('button');
     optionsButton.setAttribute('type', 'button');
     optionsButton.classList.add('task-view-subtask-element-options-button');
-    optionsButton.innerText = '...';
+    optionsButton.innerText = 'Delete';
+    optionsButton.addEventListener('click', () => deleteSubtask(subtask.id))
 
     el.append(checkbox, subtaskTitle, iconsContainer, optionsButton);
 
