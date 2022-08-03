@@ -38,9 +38,8 @@ const Subtask = () => {
         priority: 0,
         dueDate: null,
         // checklist: [], this checklist is optional
-        header: [],
+        header: null, // This header name is for grouping subtasks
         completed: false,
-        last: () => console.log("I am a function"),
     }
     return obj;
 };
