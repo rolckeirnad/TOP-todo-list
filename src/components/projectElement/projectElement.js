@@ -2,13 +2,33 @@ import events from '../../events';
 import './projectElement.css';
 import loadTaskView from '../taskView/taskView';
 
-function deleteTask(id) {
+function deleteTask(task) {
+    // Delete subtasks
+    deleteAllChildrenSubtasks(task.subtasks);
+    // Delete task
     const obj = {
         type: 'DELETE_TASK',
         key: 'tasks',
+        id: task.id,
+    }
+    events.emit('modify state', obj);
+}
+
+function deleteSubtask(id) {
+    const obj = {
+        type: 'DELETE_TASK',
+        key: 'subtasks',
         id,
     }
     events.emit('modify state', obj);
+}
+
+function deleteAllChildrenSubtasks(ids) {
+    console.log(ids);
+    console.error('This pause debugger?');
+    for (const id of ids) {
+        deleteSubtask(id);
+    }
 }
 
 function projectElement(task) {
@@ -26,7 +46,7 @@ function projectElement(task) {
     deleteButton.classList.add('project-element-options-button');
     deleteButton.setAttribute('type', 'button');
     deleteButton.innerText = "Delete";
-    deleteButton.addEventListener('click', () => deleteTask(task.id));
+    deleteButton.addEventListener('click', () => deleteTask(task));
 
     const taskView = document.createElement('div');
     taskView.classList.add('project-element-icon-title-container')
