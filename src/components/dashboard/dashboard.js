@@ -54,7 +54,7 @@ function loadSubtasks(subtasksArr) {
         const filteredData = subtasksArr.filter(subtask => {
             const subtaskDate = parse(subtask.dueDate, dateFormat, new Date());
             return (subtask.completed == false) && column.filter(column, subtaskDate);
-        });
+        }).sort((a, b) => b.priority - a.priority);
         for (let subtask of filteredData) {
             // For every element in array, create a new Node element
             const el = dashboardCard(subtask);

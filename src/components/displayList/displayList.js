@@ -30,6 +30,8 @@ function setInterval(entry) {
         const newArr = arr.filter(subtask => {
             const parsedDate = parse(subtask.dueDate, dateFormat, new Date());
             return entry.filter(entry, parsedDate);
+        }).sort((a, b) => b.priority - a.priority).sort((a, b) => {
+            return a.completed ? 1 : b.completed ? -1 : 0;
         });
         // Populate list
         const container = document.querySelector('#display-list-tasks-container');

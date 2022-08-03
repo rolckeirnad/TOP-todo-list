@@ -42,7 +42,7 @@ function header() {
     addButton.classList.add('list-header-add-button');
     addButton.setAttribute('type', 'button');
     addButton.innerText = "Add new subtask +";
-    addButton.addEventListener('click', () => createPage('subtasks',0));
+    addButton.addEventListener('click', () => createPage('subtasks', 0));
 
     headerContainer.append(headerText, addButton);
     return headerContainer;
@@ -93,7 +93,11 @@ function loadInboxSubtasks(subtasksArr) {
         const filterInterface = dateInterface(column);
         // Get all elements which pass the filter function
         const filteredData = subtasksArr.filter(subtask => filterInterface.fn(subtask.dueDate, dateFormat))
-            .filter(subtask => subtask.parentId == 0);
+            .filter(subtask => subtask.parentId == 0)
+            .sort((a, b) => b.priority - a.priority)
+            .sort((a, b) => {
+                return a.completed ? 1 : b.completed ? -1 : 0;
+            });
         const cardOptions = {
             displayParent: false,
             displayDate: true,
