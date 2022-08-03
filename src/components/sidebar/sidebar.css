@@ -5,6 +5,21 @@
     padding: 10px 5px 0px 15px;
 }
 
+.user-entries{
+    overflow-y: auto;
+    padding: 10px 15px;
+}
+
+.user-entries::-webkit-scrollbar-track {
+    background: #d0d0d0;
+}
+
+.user-entries::-webkit-scrollbar-thumb {
+    border-color: #9b5c5c;
+    border-right-style: inset;
+    border-radius: 4px;
+}
+
 .sidebar-projects-header {
     display: flex;
     justify-content: center;

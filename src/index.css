@@ -9,7 +9,7 @@
     width: 100vw;
     position: fixed;
     display: grid;
-    grid: minmax(0, 1.5fr) minmax(0, 8fr) minmax(0, 0.35fr) / 1fr 7fr;
+    grid: minmax(0, 1.5fr) minmax(0, 8fr) minmax(0, 0.35fr) / 1fr 5fr;
     grid-template-areas:
         "header header"
         "sidebar main"
@@ -36,6 +36,8 @@
 .sidebar {
     grid-area: sidebar;
     background-color: rgb(208, 208, 208);
+    display: flex;
+    flex-direction: column;
 }
 
 .footer-content {
@@ -49,4 +51,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: white;
+    opacity: 0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-color: #808080;
+    border-right-style: inset;
+    border-right-width: calc(100vw + 100vh);
+    border-radius: 4px;
 }
