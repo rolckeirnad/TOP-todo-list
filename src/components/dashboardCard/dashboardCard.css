@@ -1,15 +1,25 @@
-/* 
-** Only display title and edit button 
-** On click name expand view and include due date,
-** checkbox, priority and parent (default: inbox)
-*/
-
 .dashboard-card {
     border: 1px solid black;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
     gap: 5px;
+}
+
+.dashboard-card-icon {
+    border-radius: 20px;
+}
+
+.dashboard-card-icon.p0 {
+    background-color: rgb(119, 198, 0);
+}
+
+.dashboard-card-icon.p1 {
+    background-color: rgb(255, 153, 0);
+}
+
+.dashboard-card-icon.p2 {
+    background-color: rgb(249, 91, 91);
 }
 
 .dashboard-card-header {

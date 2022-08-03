@@ -58,7 +58,7 @@ function dashboardCard(subtask) {
 
     const priorityIcon = new Image();
     priorityIcon.src = icons(priorityImages[subtask.priority]);
-    priorityIcon.classList.add('dashboard-card-icon');
+    priorityIcon.classList.add('dashboard-card-icon', `p${subtask.priority}`);
 
     const priorityBackground = document.createElement('div');
     priorityBackground.classList.add(`dashboard-card-priority-${subtask.priority}`);
