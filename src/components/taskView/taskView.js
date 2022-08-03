@@ -16,6 +16,16 @@ function addHeader(id, header) {
     events.emit('modify state', obj);
 }
 
+function toggleState(id) {
+    const obj = {
+        type: 'TOGGLE_STATE',
+        key: 'subtasks',
+        id,
+    };
+    events.emit('modify state', obj);
+}
+
+
 function createHeaderContainer(header, id) {
     const container = document.createElement('div');
     container.classList.add('task-view-header-container');
@@ -92,7 +102,8 @@ function createSubtaskElement(subtask) {
 
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
-    checkbox.addEventListener('click', () => console.log("Toggle state!"));
+    checkbox.addEventListener('click', () => toggleState(subtask.id));
+    if (subtask.completed) checkbox.checked = true;
 
     const subtaskTitle = document.createElement('h3');
     subtaskTitle.classList.add('task-view-subtask-element-name');
@@ -148,7 +159,7 @@ function loadTaskView(task) {
     const data = state.getData('subtasks');
     loadSubtasks(data);
 
-    //events.on('subtasks updated', loadSubtasks, true);
+    events.on('subtasks updated', loadSubtasks, true);
 }
 
 let loadSubtasks;
