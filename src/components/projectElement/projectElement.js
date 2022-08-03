@@ -24,8 +24,6 @@ function deleteSubtask(id) {
 }
 
 function deleteAllChildrenSubtasks(ids) {
-    console.log(ids);
-    console.error('This pause debugger?');
     for (const id of ids) {
         deleteSubtask(id);
     }

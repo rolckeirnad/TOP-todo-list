@@ -7,6 +7,50 @@ import './projectView.css';
 // Cache DOM
 const _todosView = document.querySelector('#todos-view');
 
+function deleteProject(project) {
+    deleteAllChildrenTasks(project.tasks);
+    const obj = {
+        type: 'DELETE_TASK',
+        key: 'projects',
+        id: project.id,
+    };
+    events.emit('modify state', obj);
+}
+
+function deleteTask(task) {
+    deleteAllChildrenSubtasks(task.subtasks);
+    const obj = {
+        type: 'DELETE_TASK',
+        key: 'tasks',
+        id: task.id,
+    }
+    events.emit('modify state', obj);
+}
+
+function deleteSubtask(id) {
+    const obj = {
+        type: 'DELETE_TASK',
+        key: 'subtasks',
+        id,
+    }
+    events.emit('modify state', obj);
+}
+
+function deleteAllChildrenSubtasks(ids) {
+    for (const id of ids) {
+        deleteSubtask(id);
+    }
+}
+
+function deleteAllChildrenTasks(ids) {
+    const tasks = state.getData('tasks');
+    for (const id of ids) {
+        const index = tasks.findIndex(task => task.id == id);
+        // Get object and pass object
+        deleteTask(tasks[index]);
+    }
+}
+
 function createHeader(project) {
     const el = document.createElement('div');
     el.classList.add('project-view-header-container');
@@ -25,7 +69,7 @@ function createHeader(project) {
     deleteButton.classList.add('project-view-header-delete-button');
     deleteButton.setAttribute('type', 'button');
     deleteButton.innerText = "Delete this project";
-    deleteButton.addEventListener('click', () => console.log("I should delete this project"));
+    deleteButton.addEventListener('click', () => deleteProject(project));
 
     el.append(header, addButton, deleteButton);
     return el;
