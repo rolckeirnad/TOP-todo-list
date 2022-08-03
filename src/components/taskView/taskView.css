@@ -1,0 +1,7 @@
+.task-view-header-container {
+    display: flex;
+}
+
+.task-view-subtask-element {
+    display: flex;
+}

@@ -5,6 +5,7 @@ import createPage from '../taskCreation/taskCreation';
 import { sidebarEntries } from '../../configuration';
 import loadProjectView from '../projectView/projectView';
 import state from '../../state';
+import loadTaskView from '../taskView/taskView';
 
 const icons = require.context(
     './',
@@ -55,7 +56,7 @@ function updateTasks(tasksArr) {
     for (const task of tasksArr) {
         if (task.parentId) {
             const container = document.querySelector(`#sidebar_${task.parentId}`);
-            const taskEntry = Object.assign({}, task, { icon: './icons8-folder-100.png', fn: () => console.log("I'm calling task view") });
+            const taskEntry = Object.assign({}, task, { icon: './icons8-folder-100.png', fn: () => loadTaskView(task) });
             const setTask = createLi(taskEntry);
             container.appendChild(setTask);
         }

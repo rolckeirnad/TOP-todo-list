@@ -1,5 +1,6 @@
 import events from '../../events';
 import './projectElement.css';
+import loadTaskView from '../taskView/taskView';
 
 function deleteTask(id) {
     const obj = {
@@ -30,7 +31,7 @@ function projectElement(task) {
     const taskView = document.createElement('div');
     taskView.classList.add('project-element-icon-title-container')
     taskView.append(percentage, taskTitle);
-    taskView.addEventListener('click', () => console.log('I should show complete task view', task.id));
+    taskView.addEventListener('click', () => loadTaskView(task));
 
     el.append(taskView, deleteButton);
     return el;
