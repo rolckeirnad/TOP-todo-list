@@ -9,6 +9,7 @@
 .list-header-container {
     display: flex;
     gap: 20px;
+    margin: 6px 23px;
 }
 
 .list-header-add-button {

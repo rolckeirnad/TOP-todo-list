@@ -3,6 +3,12 @@
     flex-direction: column;
     padding: 10px 20px;
     gap: 10px;
+    height: 100%;
+    overflow: auto;
+}
+
+.display-list-header-container{
+    margin: 6px 23px;
 }
 
 #display-list-tasks-container>.list-element>.list-element-footer>.list-element-button {

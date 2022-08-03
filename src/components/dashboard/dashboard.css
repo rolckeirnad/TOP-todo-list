@@ -1,6 +1,7 @@
 .dashboard-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: minmax(0, 1fr);
     height: 100%;
 }
 
@@ -16,6 +17,10 @@
     flex: 1;
     background-color: white;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
 }
 
 .dashboard-header {

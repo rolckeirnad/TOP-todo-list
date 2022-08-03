@@ -1,9 +1,33 @@
 .project-view-header-container {
     display: flex;
+    margin: 6px 23px;
+    gap: 15px;
+}
+
+.project-view-header-title{
+    flex: 1;
+}
+
+.project-view-header-add-button,
+.project-view-header-delete-button {
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    padding: 0px 10px;
+}
+
+.project-view-header-add-button {
+    background-color: greenyellow;
+}
+
+.project-view-header-delete-button {
+    background-color: red;
+    color: white;
 }
 
 .project-view-content-container{
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding: 10px 20px;
 }

@@ -1,6 +1,23 @@
 .project-element {
     display: flex;
     border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-weight: normal;
+    font-size: 1.2rem;
+}
+
+.project-element:hover {
+    background-color: antiquewhite;
+}
+
+.project-element-options-button {
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: red;
+    font-weight: bold;
+    color: white;
 }
 
 .project-element-icon-title-container {
