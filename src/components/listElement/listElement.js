@@ -50,7 +50,7 @@ function listElement(subtask, options) {
 
     const priorityIcon = new Image();
     priorityIcon.src = icons(priorityIconList[subtask.priority]);
-    priorityIcon.classList.add('list-element-priority-icon', 'list-element-icon');
+    priorityIcon.classList.add('list-element-priority-icon', 'list-element-icon', `p${subtask.priority}`);
 
     const titleText = document.createElement('span');
     titleText.classList.add('list-element-title-text');

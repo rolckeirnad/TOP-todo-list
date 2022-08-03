@@ -55,10 +55,26 @@
     justify-content: space-between;
 }
 
-.list-element-button .completed {
+.list-element-button-completed {
     background-color: green;
 }
 
 .list-element-button.delete {
     background-color: red;
+}
+
+.list-element-priority-icon {
+    border-radius: 20px;
+}
+
+.list-element-priority-icon.p0 {
+    background-color: rgb(119, 198, 0);
+}
+
+.list-element-priority-icon.p1 {
+    background-color: rgb(255, 153, 0);
+}
+
+.list-element-priority-icon.p2 {
+    background-color: rgb(249, 91, 91);
 }
