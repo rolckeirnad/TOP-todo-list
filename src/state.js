@@ -88,6 +88,17 @@ const loadFromStorage = () => {
     }
 };
 
+const getParentsArr = (type) => {
+    switch (type) {
+        case 'tasks':
+            return state.getData('projects');
+        case 'subtasks':
+            return state.getData('tasks');
+        default:
+            console.error('Type not valid')
+    }
+};
+
 const stateDispatcher = (action) => {
     switch (action.type) {
         case 'LOAD_STATE': {
@@ -118,10 +129,31 @@ const stateDispatcher = (action) => {
             saveNewState(data, action.key);
             break;
         }
+/*         case 'ADD_HEADER': {
+            const data = state.getData(action.key);
+            const index = getIndex(data, action.id);
+
+            const setHeaders = [...data[index].headers];
+            setHeaders.push(action.value);
+            // Add header
+            data[index] = Object.assign({}, data[index], { headers: setHeaders })
+            saveNewState(data, action.key);
+            break;
+        } */
         case 'DELETE_TASK': {
             // Get data array, get index in array of desired object
             const data = state.getData(action.key);
             const index = getIndex(data, action.id);
+            // Verify if it has parentId
+            if (data[index].parentId != null) {
+                const parents = getParentsArr(action.key);
+                // Get parent object
+                const parentIndex = getIndex(parents, data[index].parentId);
+                // Get ID 
+                const removeIndex = parents[parentIndex][action.key].indexOf(id => id == action.id);
+                // Remove id from parent
+                parents[parentIndex][action.key].splice(removeIndex, 1);
+            }
             // Modify object
             data.splice(index, 1);
             // Save new state
