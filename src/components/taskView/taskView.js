@@ -89,10 +89,12 @@ function createTaskPage(task) {
 
     const generalContainer = document.createElement('div');
     generalContainer.id = `general_container_${task.id}`;
+    generalContainer.classList.add('task-view-subtasks-container');
 
     // Inside this container we'll create headers containers with subtasks
     const headerContainer = document.createElement('div');
     headerContainer.id = `header_container_${task.id}`;
+    headerContainer.classList.add('task-view-subtasks-container');
 
     for (const header of task.headers) {
         // Create header container with id of '${task.id}_${task.header[]}'
@@ -144,7 +146,6 @@ function setTask(task) {
         for (const subtask of filteredSubtasks) {
             // Create subtask element
             const subtaskEl = createSubtaskElement(subtask);
-            console.log(subtask);
             if (subtask.header === null) {
                 // If there's not header name append it to general container
                 generalContainer.appendChild(subtaskEl);
