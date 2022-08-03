@@ -92,7 +92,8 @@ function loadInboxSubtasks(subtasksArr) {
         // Get filter function with our interface from column object
         const filterInterface = dateInterface(column);
         // Get all elements which pass the filter function
-        const filteredData = subtasksArr.filter(subtask => filterInterface.fn(subtask.dueDate, dateFormat));
+        const filteredData = subtasksArr.filter(subtask => filterInterface.fn(subtask.dueDate, dateFormat))
+            .filter(subtask => subtask.parentId == 0);
         const cardOptions = {
             displayParent: false,
             displayDate: true,
